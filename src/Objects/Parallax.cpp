@@ -26,7 +26,7 @@ namespace Parallax
 		{
 			parallax[i].offset -= (parallax[i].scrolling * deltaTime);
 
-			if (parallax[i].offset <= ((parallax[i].texture.width * 2) * -1))
+			if (parallax[i].offset <= ((parallax[i].texture.width) * -1))
 			{
 				parallax[i].offset = 0;
 			}
