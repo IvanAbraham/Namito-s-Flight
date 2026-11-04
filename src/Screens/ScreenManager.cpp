@@ -8,6 +8,7 @@
 #include "ScreenMenu.h"
 #include "ScreenCredits.h"
 #include "Utils/Text.h"
+#include "Objects/Parallax.h"
 
 namespace ScreenManager
 {
@@ -20,6 +21,8 @@ namespace ScreenManager
 
 	//Recursos
 	static Font font;
+
+	static Texture2D parallaxBackground[Parallax::MAX_LAYERS];
 
 	static Text::Text version;
 
@@ -45,7 +48,7 @@ namespace ScreenManager
 
 		const Vector2 position = { 10, 0 };
 
-		Text::Init(version, font, fontSize, "v 0.2", position, 0, BLACK);
+		Text::Init(version, font, fontSize, "v 0.3", position, 0, BLACK);
 	}
 
 	static void Init()
@@ -61,9 +64,15 @@ namespace ScreenManager
 		//Carga centralizada de recursos
 		font = LoadFontEx("res/font/accid___.ttf", MAX_FONT_SIZE, NULL, 0);
 
+		parallaxBackground[0] = LoadTexture("res/Background/Parallax/layer01.png");
+		parallaxBackground[1] = LoadTexture("res/Background/Parallax/layer02.png");
+		parallaxBackground[2] = LoadTexture("res/Background/Parallax/layer03.png");
+		parallaxBackground[3] = LoadTexture("res/Background/Parallax/layer04.png");
+		parallaxBackground[4] = LoadTexture("res/Background/Parallax/layer05.png");
+
 		TextInit();
 
-		Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT);
+		Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground);
 
 		Menu::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -100,7 +109,7 @@ namespace ScreenManager
 			if (isGameOver)
 			{
 				currentScreen = Screens::Menu;
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT);
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground);
 			}
 			break;
 		case Screens::Credits:
@@ -136,7 +145,6 @@ namespace ScreenManager
 			Credits::Draw();
 			break;
 		case Screens::Exit:
-
 			break;
 		default:
 			break;
@@ -148,6 +156,11 @@ namespace ScreenManager
 	static void Delete()
 	{
 		UnloadFont(font);
+
+		for (int i = 0; i < Parallax::MAX_LAYERS; i++)
+		{
+			UnloadTexture(parallaxBackground[i]);
+		}
 	}
 
 	void Run()

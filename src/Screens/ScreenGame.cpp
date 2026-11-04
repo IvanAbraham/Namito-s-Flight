@@ -3,6 +3,7 @@
 #include "Objects/Player.h"
 #include "Objects/Obstacle.h"
 #include "Objects/CollisionManager.h"
+#include "Objects/Parallax.h"
 
 namespace Game
 {
@@ -13,10 +14,14 @@ namespace Game
 	static Player::Player player;
 	static Obtacle::Obstacle obstacle;
 
+	static Parallax::Layer parallax[Parallax::MAX_LAYERS];
+
 	static float gravity;
 
-	void Init(int screenWidth, int screenHeight)
+	void Init(int screenWidth, int screenHeight, Texture2D layers[Parallax::MAX_LAYERS])
 	{
+		Parallax::Init(parallax, layers);
+
 		Player::Init(player, screenWidth, screenHeight);
 		Obtacle::Init(obstacle, screenWidth, screenHeight);
 
@@ -25,6 +30,8 @@ namespace Game
 
 	void Update(float deltaTime, int screenHeight, bool& isGameOver)
 	{
+		Parallax::Update(parallax, deltaTime);
+
 		Player::Update(player, deltaTime, gravity);
 		Obtacle::Update(obstacle, deltaTime);
 
@@ -42,7 +49,11 @@ namespace Game
 
 	void Draw()
 	{
+		Parallax::Draw(parallax);
+		
 		Player::Draw(player);
 		Obtacle::Draw(obstacle);
+
+
 	}
 }
