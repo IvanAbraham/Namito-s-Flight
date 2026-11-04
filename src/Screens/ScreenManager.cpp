@@ -81,11 +81,11 @@ namespace ScreenManager
 
 	static void Update(float deltaTime)
 	{
-		bool isGameOver;
-		bool playButtonPressed;
-		bool creditsButtonPressed;
-		bool exitButtonPressed;
-		bool backButtonPressed;
+		bool isGameOver = false;
+		bool playButtonPressed = false;
+		bool creditsButtonPressed = false;
+		bool exitButtonPressed = false;
+		bool backButtonPressed = false;
 
 		switch (currentScreen)
 		{
