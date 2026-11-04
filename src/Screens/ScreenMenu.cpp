@@ -19,6 +19,8 @@ namespace Menu
 	const float EXIT_TEXT_OFFSET_X = 20.0f;
 	const float BUTTONS_TEXT_OFFSET_Y = 5.0f;
 
+	const Vector2 TITLE_POS = { 100.0f, 100.0f };
+
 	//Recursos
 	static Text::Text title;
 
@@ -98,10 +100,7 @@ namespace Menu
 
 	static void TextInit()
 	{
-		Vector2 pos;
-		pos.x = 100;
-		pos.y = 100;
-		Text::Init(title, menuFont, FONT_SIZE_TITLE, "Namito's Flight", pos, TITLE_FONT_SPACING, BLACK);
+		Text::Init(title, menuFont, FONT_SIZE_TITLE, "Namito's Flight", TITLE_POS, TITLE_FONT_SPACING, BLACK);
 	}
 
 	void Init(Font font, int screenWidth, int screenHeight)
