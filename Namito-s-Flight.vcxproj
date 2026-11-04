@@ -166,6 +166,7 @@
     <ClCompile Include="src\Objects\Button.cpp" />
     <ClCompile Include="src\Objects\CollisionManager.cpp" />
     <ClCompile Include="src\Objects\Obstacle.cpp" />
+    <ClCompile Include="src\Objects\Parallax.cpp" />
     <ClCompile Include="src\Objects\Player.cpp" />
     <ClCompile Include="src\Screens\ScreenCredits.cpp" />
     <ClCompile Include="src\Screens\ScreenGame.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="src\Objects\Button.h" />
     <ClInclude Include="src\Objects\CollisionManager.h" />
     <ClInclude Include="src\Objects\Obstacle.h" />
+    <ClInclude Include="src\Objects\Parallax.h" />
     <ClInclude Include="src\Objects\Player.h" />
     <ClInclude Include="src\Screens\ScreenCredits.h" />
     <ClInclude Include="src\Screens\ScreenGame.h" />
