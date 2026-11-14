@@ -7,7 +7,14 @@
 namespace Game
 {
 
-	void Init(int screenWidth, int screenHeight, Texture2D layers[Parallax::MAX_LAYERS], bool twoP);
+	struct GameTextures
+	{
+		Texture2D player1;
+		Texture2D player2;
+		Texture2D parallaxBackground[Parallax::MAX_LAYERS];
+	};
+
+	void Init(int screenWidth, int screenHeight, GameTextures& textures, bool twoP);
 
 	void Update(float deltaTime, int screenHeight, bool& isGameOver);
 

@@ -7,7 +7,6 @@ namespace Player
 
 	enum class PlayerNumber { One = 1, Two };
 
-
 	struct Player
 	{
 		Vector2 position;

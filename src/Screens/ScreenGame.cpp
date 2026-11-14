@@ -21,12 +21,12 @@ namespace Game
 
 	static float gravity;
 
-	void Init(int screenWidth, int screenHeight, Texture2D layers[Parallax::MAX_LAYERS], bool twoP)
+	void Init(int screenWidth, int screenHeight, GameTextures& textures, bool twoP)
 	{
 
 		twoPlayers = twoP;
 
-		Parallax::Init(parallax, layers);
+		Parallax::Init(parallax, textures.parallaxBackground);
 
 		Player::Init(player1, screenWidth, screenHeight, Player::PlayerNumber::One);
 		

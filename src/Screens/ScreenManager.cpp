@@ -23,13 +23,13 @@ namespace ScreenManager
 	//Recursos
 	static Font font;
 
-	static Texture2D parallaxBackground[Parallax::MAX_LAYERS];
-
 	static Text::Text version;
 
 	static Screens currentScreen;
 
 	static bool isRunning;
+
+	static Game::GameTextures textures;
 
 
 	static void TextInit();
@@ -65,11 +65,13 @@ namespace ScreenManager
 		//Carga centralizada de recursos
 		font = LoadFontEx("res/font/accid___.ttf", MAX_FONT_SIZE, NULL, 0);
 
-		parallaxBackground[0] = LoadTexture("res/Background/Parallax/layer01.png");
-		parallaxBackground[1] = LoadTexture("res/Background/Parallax/layer02.png");
-		parallaxBackground[2] = LoadTexture("res/Background/Parallax/layer03.png");
-		parallaxBackground[3] = LoadTexture("res/Background/Parallax/layer04.png");
-		parallaxBackground[4] = LoadTexture("res/Background/Parallax/layer05.png");
+		textures.parallaxBackground[0] = LoadTexture("res/Background/Parallax/layer01.png");
+		textures.parallaxBackground[1] = LoadTexture("res/Background/Parallax/layer02.png");
+		textures.parallaxBackground[2] = LoadTexture("res/Background/Parallax/layer03.png");
+		textures.parallaxBackground[3] = LoadTexture("res/Background/Parallax/layer04.png");
+		textures.parallaxBackground[4] = LoadTexture("res/Background/Parallax/layer05.png");
+		textures.player1 = LoadTexture("res/Players/p1_sheets.png");
+		textures.player2 = LoadTexture("res/Players/p2_sheets.png");
 
 		TextInit();
 
@@ -98,13 +100,13 @@ namespace ScreenManager
 			{
 				currentScreen = Screens::Play;
 
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground, false);
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, false);
 			}
 			else if (twoPlayersButtonPressed)
 			{
 				currentScreen = Screens::Play;
 
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground, true);
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, true);
 			}
 			else if (tutorialButtonPressed)
 			{
@@ -183,8 +185,10 @@ namespace ScreenManager
 
 		for (int i = 0; i < Parallax::MAX_LAYERS; i++)
 		{
-			UnloadTexture(parallaxBackground[i]);
+			UnloadTexture(textures.parallaxBackground[i]);
 		}
+		UnloadTexture(textures.player1);
+		UnloadTexture(textures.player2);
 	}
 
 	void Run()
