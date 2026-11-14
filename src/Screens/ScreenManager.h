@@ -7,6 +7,7 @@ namespace ScreenManager
 		None = 0,
 		Menu,
 		Play,
+		Tutorial,
 		Credits,
 		Exit
 	};

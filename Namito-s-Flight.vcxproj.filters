@@ -63,6 +63,9 @@
     <ClCompile Include="src\Screens\ScreenCredits.cpp">
       <Filter>Archivos de origen\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="src\Screens\ScreenTutorial.cpp">
+      <Filter>Archivos de origen\Screens</Filter>
+    </ClCompile>
     <ClCompile Include="src\Objects\Parallax.cpp">
       <Filter>Archivos de origen\Objects</Filter>
     </ClCompile>
@@ -93,6 +96,9 @@
       <Filter>Archivos de encabezado\Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\Screens\ScreenCredits.h">
+      <Filter>Archivos de encabezado\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\ScreenTutorial.h">
       <Filter>Archivos de encabezado\Screens</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\Parallax.h">

@@ -6,6 +6,7 @@
 
 #include "ScreenGame.h"
 #include "ScreenMenu.h"
+#include "ScreenTutorial.h"
 #include "ScreenCredits.h"
 #include "Utils/Text.h"
 #include "Objects/Parallax.h"
@@ -74,6 +75,8 @@ namespace ScreenManager
 
 		Menu::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+		Tutorial::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 		Credits::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
@@ -82,6 +85,7 @@ namespace ScreenManager
 		bool isGameOver = false;
 		bool playButtonPressed = false;
 		bool twoPlayersButtonPressed = false;
+		bool tutorialButtonPressed = false;
 		bool creditsButtonPressed = false;
 		bool exitButtonPressed = false;
 		bool backButtonPressed = false;
@@ -89,7 +93,7 @@ namespace ScreenManager
 		switch (currentScreen)
 		{
 		case Screens::Menu:
-			Menu::Update(playButtonPressed, twoPlayersButtonPressed, creditsButtonPressed, exitButtonPressed);
+			Menu::Update(playButtonPressed, twoPlayersButtonPressed, tutorialButtonPressed, creditsButtonPressed, exitButtonPressed);
 			if (playButtonPressed)
 			{
 				currentScreen = Screens::Play;
@@ -101,6 +105,10 @@ namespace ScreenManager
 				currentScreen = Screens::Play;
 
 				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground, true);
+			}
+			else if (tutorialButtonPressed)
+			{
+				currentScreen = Screens::Tutorial;
 			}
 			else if (creditsButtonPressed)
 			{
@@ -114,6 +122,13 @@ namespace ScreenManager
 		case Screens::Play:
 			Game::Update(deltaTime, SCREEN_HEIGHT, isGameOver);
 			if (isGameOver)
+			{
+				currentScreen = Screens::Menu;
+			}
+			break;
+		case Screens::Tutorial:
+			Tutorial::Update(backButtonPressed);
+			if (backButtonPressed)
 			{
 				currentScreen = Screens::Menu;
 			}
@@ -146,6 +161,9 @@ namespace ScreenManager
 			break;
 		case Screens::Play:
 			Game::Draw();
+			break;
+		case Screens::Tutorial:
+			Tutorial::Draw();
 			break;
 		case Screens::Credits:
 			Credits::Draw();
