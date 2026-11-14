@@ -6,6 +6,12 @@ namespace Player
 {
 	static const float PLAYER_WIDTH = 60.0f;
 	static const float PLAYER_HEIGHT = 60.0f;
+	
+	static const int SPRITE_FRAMES = 4;
+	static const int IDLE_FRAME = 0;
+	static const int JUMP_FIRS_TFRAME = 1;
+	static const float ANIMATION_DELAY = 0.05f;
+
 
 	static const float INITIAL_SPEED = 200.f;
 
@@ -47,7 +53,7 @@ namespace Player
 
 		player.score = 0;
 
-		player.color = GREEN;
+		player.currentFrame = IDLE_FRAME;
 
 		if (pNum == PlayerNumber::One)
 		{
@@ -66,28 +72,16 @@ namespace Player
 		{
 			player.verticalVelocity = player.jumpForce * UP_DIR.y;
 			player.direction = UP_DIR;
+
+			//Seteo el inicio de la animación
+
+			player.currentFrame = JUMP_FIRS_TFRAME;
+			player.frameTimer = 0;
 		}
 		else
 		{
 			player.direction = DOWN_DIR;
 		}
-
-		/*if (player.direction.y == DOWN_DIR.y)
-		{
-			player.verticalVelocity = SPEED;
-		}*/
-		/*if (IsKeyDown(KEY_W))
-		{
-			player.direction = UP_DIR;
-
-			player.position.y += player.direction.y * player.verticalVelocity * deltaTime;
-		}
-		else if (IsKeyDown(KEY_S))
-		{
-			player.direction = DOWN_DIR;
-
-			player.position.y += player.direction.y * player.verticalVelocity * deltaTime;
-		}*/
 
 		//Aceleracion
 		if (player.verticalVelocity >= player.maxVerticalVelocity)
@@ -99,16 +93,47 @@ namespace Player
 			player.verticalVelocity += gravity * deltaTime;
 		}
 
-
 		//Actualizo posicion
 		player.position.y += player.direction.y * player.verticalVelocity * deltaTime;
 
 		player.hitbox.x = player.position.x;
 		player.hitbox.y = player.position.y;
+
+		if (player.verticalVelocity < 0)
+		{
+			player.frameTimer = player.frameTimer + deltaTime;
+
+			if (player.frameTimer > ANIMATION_DELAY)
+			{
+				player.frameTimer -= ANIMATION_DELAY;
+				player.currentFrame++;
+
+
+				if (player.currentFrame >= SPRITE_FRAMES)
+				{
+					player.currentFrame = JUMP_FIRS_TFRAME;
+				}
+			}
+		}
+		else
+		{
+			player.currentFrame = IDLE_FRAME;
+		}
 	}
 
 	void Draw(Player& player)
 	{
-		DrawRectangleRec(player.hitbox, player.color);
+		float frameWidth = static_cast<float>(player.texture.width / SPRITE_FRAMES);
+		float frameHeight = static_cast<float>(player.texture.height);
+
+		Rectangle source = { frameWidth * player.currentFrame, 0.0f, frameWidth, frameHeight };
+
+		//El sprite se dibuja a su tamaño original, centrado sobre la hitbox (que es mas chica)
+		float paddingX = (frameWidth - player.hitbox.width) / 2.0f;
+		float paddingY = (frameHeight - player.hitbox.height) / 2.0f;
+
+		Rectangle dest = { player.hitbox.x - paddingX, player.hitbox.y - paddingY, frameWidth, frameHeight };
+
+		DrawTexturePro(player.texture, source, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
 	}
 }

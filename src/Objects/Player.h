@@ -25,9 +25,13 @@ namespace Player
 
 		int score;
 
-		Color color;
-
 		KeyboardKey jumpKey;
+
+		Texture2D texture;
+
+		int currentFrame;
+
+		float frameTimer;
 	};
 
 	void Init(Player& player, int screenWidth, int screenHeight, PlayerNumber pNum);

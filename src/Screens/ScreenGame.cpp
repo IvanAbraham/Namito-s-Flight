@@ -28,10 +28,14 @@ namespace Game
 
 		Parallax::Init(parallax, textures.parallaxBackground);
 
+		player1.texture = textures.player1;
+
 		Player::Init(player1, screenWidth, screenHeight, Player::PlayerNumber::One);
 		
 		if (twoPlayers)
 		{
+			player2.texture = textures.player2;
+
 			Player::Init(player2, screenWidth, screenHeight, Player::PlayerNumber::Two);
 		}
 
