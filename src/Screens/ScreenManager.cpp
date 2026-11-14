@@ -49,7 +49,7 @@ namespace ScreenManager
 
 		const Vector2 position = { 10, 0 };
 
-		Text::Init(version, font, fontSize, "v 0.3", position, 0, BLACK);
+		Text::Init(version, font, fontSize, "v 0.4", position, 0, BLACK);
 	}
 
 	static void Init()
