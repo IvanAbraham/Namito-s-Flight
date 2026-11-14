@@ -17,8 +17,12 @@ namespace Credits
 	const float BACK_TEXT_OFFSET_X = 20.0f;
 	const float BUTTONS_TEXT_OFFSET_Y = 5.0f;
 
+	const Vector2 CREDITS_POS = { 100.0f, 100.0f };
+	const Vector2 ADDITIONAL_CREDITS_POS = { 100.0f, 160.0f };
+
 	//Recursos
 	static Text::Text credits;
+	static Text::Text additionalCredits;
 
 	static Button::Button back;
 
@@ -62,10 +66,8 @@ namespace Credits
 
 	static void TextInit()
 	{
-		Vector2 pos;
-		pos.x = 100;
-		pos.y = 100;
-		Text::Init(credits, menuFont, FONT_SIZE_TITLE, "Game Development by: Suarez Nahuel", pos, TITLE_FONT_SPACING, BLACK);
+		Text::Init(credits, menuFont, FONT_SIZE_TITLE, "Game Development by: Suarez Nahuel", CREDITS_POS, TITLE_FONT_SPACING, BLACK);
+		Text::Init(additionalCredits, menuFont, FONT_SIZE_TITLE, "Additional Development by: Ivan Abraham", ADDITIONAL_CREDITS_POS, TITLE_FONT_SPACING, BLACK);
 	}
 
 	void Init(Font font, int screenWidth, int screenHeight)
@@ -97,6 +99,7 @@ namespace Credits
 	void Draw()
 	{
 		Text::Draw(credits);
+		Text::Draw(additionalCredits);
 		Button::Draw(back);
 	}
 
