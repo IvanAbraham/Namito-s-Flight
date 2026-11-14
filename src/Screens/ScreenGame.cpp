@@ -41,24 +41,42 @@ namespace Game
 	{
 		Parallax::Update(parallax, deltaTime);
 
-		Player::Update(player1, deltaTime, gravity);
-
-		if (twoPlayers)
-		{
-			Player::Update(player2, deltaTime, gravity);
-		}
-
 		Obtacle::Update(obstacle, deltaTime);
 
-		ColisionManager::CheckColisions(player1, obstacle, screenHeight);
-
-		if (!player1.isAlive)
+		if (player1.isAlive)
 		{
-			isGameOver = true;
+			Player::Update(player1, deltaTime, gravity);
+			ColisionManager::CheckColisions(player1, obstacle, screenHeight);
+
+		}
+
+		if (twoPlayers && player2.isAlive)
+		{
+			Player::Update(player2, deltaTime, gravity);
+			ColisionManager::CheckColisions(player2, obstacle, screenHeight);
+		}
+		
+		if (twoPlayers)
+		{
+			if (!player1.isAlive && !player2.isAlive)
+			{
+				isGameOver = true;
+			}
+			else
+			{
+				isGameOver = false;
+			}
 		}
 		else
 		{
-			isGameOver = false;
+			if (!player1.isAlive)
+			{
+				isGameOver = true;
+			}
+			else
+			{
+				isGameOver = false;
+			}
 		}
 	}
 
@@ -66,9 +84,12 @@ namespace Game
 	{
 		Parallax::Draw(parallax);
 		
-		Player::Draw(player1);
+		if (player1.isAlive)
+		{
+			Player::Draw(player1);
+		}
 
-		if (twoPlayers)
+		if (twoPlayers && player2.isAlive)
 		{
 			Player::Draw(player2);
 		}
