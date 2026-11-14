@@ -15,9 +15,18 @@ namespace Player
 	static const Vector2 UP_DIR = { 0, -1 };
 	static const Vector2 DOWN_DIR = { 0, 1 };
 
-	void Init(Player& player, int screenWidth, int screenHeight)
+	void Init(Player& player, int screenWidth, int screenHeight, PlayerNumber pNum)
 	{
-		player.position.x = static_cast<float>(screenWidth / 4);
+		
+		if (pNum == PlayerNumber::One)
+		{
+			player.position.x = static_cast<float>(screenWidth / 4);
+		}
+		else
+		{
+			player.position.x = static_cast<float>(screenWidth / 6);
+		}
+
 		player.position.y = static_cast<float>(screenHeight / 2);
 
 		player.direction.x = 0;
@@ -39,11 +48,21 @@ namespace Player
 		player.score = 0;
 
 		player.color = GREEN;
+
+		if (pNum == PlayerNumber::One)
+		{
+			player.jumpKey = KEY_UP;
+		}
+		else
+		{
+			player.jumpKey = KEY_W;
+		}
+		
 	}
 
 	void Update(Player& player, float deltaTime, float gravity)
 	{
-		if (IsKeyPressed(KEY_SPACE) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		if (IsKeyPressed(player.jumpKey))
 		{
 			player.verticalVelocity = player.jumpForce * UP_DIR.y;
 			player.direction = UP_DIR;

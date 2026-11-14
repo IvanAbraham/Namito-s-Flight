@@ -4,6 +4,10 @@
 
 namespace Player
 {
+
+	enum class PlayerNumber { One = 1, Two };
+
+
 	struct Player
 	{
 		Vector2 position;
@@ -23,9 +27,11 @@ namespace Player
 		int score;
 
 		Color color;
+
+		KeyboardKey jumpKey;
 	};
 
-	void Init(Player& player, int screenWidth, int screenHeight);
+	void Init(Player& player, int screenWidth, int screenHeight, PlayerNumber pNum);
 
 	void Update(Player& player, float deltaTime, float gravity);
 

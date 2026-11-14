@@ -132,7 +132,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <PostBuildEvent>
-      <Command>start scripts\copy.bat "$(SolutionDir)res" "$(OutDir)res"</Command>
+      <Command>call scripts\copy.bat "$(SolutionDir)res" "$(OutDir)res"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -158,7 +158,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <PostBuildEvent>
-      <Command>start scripts\copy.bat "$(SolutionDir)res" "$(OutDir)res"</Command>
+      <Command>call scripts\copy.bat "$(SolutionDir)res" "$(OutDir)res"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

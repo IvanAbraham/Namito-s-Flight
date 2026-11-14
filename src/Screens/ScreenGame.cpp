@@ -11,8 +11,11 @@ namespace Game
 	const float INITIAL_GRAVITY = 800.0f;
 
 	//Recursos
-	static Player::Player player;
+	static Player::Player player1;
+	static Player::Player player2;
 	static Obtacle::Obstacle obstacle;
+
+	static bool twoPlayers = true;
 
 	static Parallax::Layer parallax[Parallax::MAX_LAYERS];
 
@@ -22,7 +25,13 @@ namespace Game
 	{
 		Parallax::Init(parallax, layers);
 
-		Player::Init(player, screenWidth, screenHeight);
+		Player::Init(player1, screenWidth, screenHeight, Player::PlayerNumber::One);
+		
+		if (twoPlayers)
+		{
+			Player::Init(player2, screenWidth, screenHeight, Player::PlayerNumber::Two);
+		}
+
 		Obtacle::Init(obstacle, screenWidth, screenHeight);
 
 		gravity = INITIAL_GRAVITY;
@@ -32,12 +41,18 @@ namespace Game
 	{
 		Parallax::Update(parallax, deltaTime);
 
-		Player::Update(player, deltaTime, gravity);
+		Player::Update(player1, deltaTime, gravity);
+
+		if (twoPlayers)
+		{
+			Player::Update(player2, deltaTime, gravity);
+		}
+
 		Obtacle::Update(obstacle, deltaTime);
 
-		ColisionManager::CheckColisions(player, obstacle, screenHeight);
+		ColisionManager::CheckColisions(player1, obstacle, screenHeight);
 
-		if (!player.isAlive)
+		if (!player1.isAlive)
 		{
 			isGameOver = true;
 		}
@@ -51,7 +66,13 @@ namespace Game
 	{
 		Parallax::Draw(parallax);
 		
-		Player::Draw(player);
+		Player::Draw(player1);
+
+		if (twoPlayers)
+		{
+			Player::Draw(player2);
+		}
+
 		Obtacle::Draw(obstacle);
 
 
