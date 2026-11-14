@@ -15,6 +15,7 @@ namespace Menu
 	const float BUTTON_FONT_SPACING = 10.0f;
 
 	const float PLAY_TEXT_OFFSET_X = 20.0f;
+	const float TWO_PLAYERS_TEXT_OFFSET_X = 20.0f;
 	const float CREDITS_TEXT_OFFSET_X = 20.0f;
 	const float EXIT_TEXT_OFFSET_X = 20.0f;
 	const float BUTTONS_TEXT_OFFSET_Y = 5.0f;
@@ -25,6 +26,7 @@ namespace Menu
 	static Text::Text title;
 
 	static Button::Button play;
+	static Button::Button twoPlayers;
 	static Button::Button credits;
 	static Button::Button exit;
 
@@ -41,7 +43,7 @@ namespace Menu
 		//Init a cada boton
 		Vector2 buttonPos;
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
-		buttonPos.y = static_cast<float>((screenHeight / 12) * 6);
+		buttonPos.y = static_cast<float>((screenHeight / 12) * 4);
 
 		Vector2 textPos;
 
@@ -64,6 +66,22 @@ namespace Menu
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Play", textPos, BUTTON_FONT_SPACING, WHITE);
 
 		Button::Init(play, defaultColor, selectColor, hitbox, text);
+
+		//TWO PLAYERS
+		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
+		buttonPos.y = static_cast<float>((screenHeight / 12) * 6);
+
+		hitbox.x = buttonPos.x;
+		hitbox.y = buttonPos.y;
+		hitbox.width = Button::BUTTON_WIDTH;
+		hitbox.height = Button::BUTTON_HEIGHT;
+
+		textPos.x = hitbox.x + TWO_PLAYERS_TEXT_OFFSET_X;
+		textPos.y = hitbox.y + BUTTONS_TEXT_OFFSET_Y;
+
+		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "2 Players", textPos, BUTTON_FONT_SPACING, WHITE);
+
+		Button::Init(twoPlayers, defaultColor, selectColor, hitbox, text);
 
 		//CREDITS
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
@@ -110,7 +128,7 @@ namespace Menu
 		ButtonsInit(screenWidth, screenHeight);
 	}
 
-	void Update(bool& playButtonPressed, bool& creditsButtonPressed, bool& exitButtonPressed)
+	void Update(bool& playButtonPressed, bool& twoPlayersButtonPressed, bool& creditsButtonPressed, bool& exitButtonPressed)
 	{
 		//Actualizar estado de botones
 		Vector2 mousePos = GetMousePosition();
@@ -126,6 +144,19 @@ namespace Menu
 		else
 		{
 			playButtonPressed = false;
+		}
+
+		//Two players
+		Button::Update(twoPlayers, mousePos);
+		if (!twoPlayers.isPressed && twoPlayers.wasPressed)
+		{
+			twoPlayers.isPressed = false;
+			twoPlayers.wasPressed = false;
+			twoPlayersButtonPressed = true;
+		}
+		else
+		{
+			twoPlayersButtonPressed = false;
 		}
 
 		//Credits
@@ -159,6 +190,7 @@ namespace Menu
 	{
 		Text::Draw(title);
 		Button::Draw(play);
+		Button::Draw(twoPlayers);
 		Button::Draw(credits);
 		Button::Draw(exit);
 	}

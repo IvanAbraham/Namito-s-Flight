@@ -15,14 +15,17 @@ namespace Game
 	static Player::Player player2;
 	static Obtacle::Obstacle obstacle;
 
-	static bool twoPlayers = true;
+	static bool twoPlayers = false;
 
 	static Parallax::Layer parallax[Parallax::MAX_LAYERS];
 
 	static float gravity;
 
-	void Init(int screenWidth, int screenHeight, Texture2D layers[Parallax::MAX_LAYERS])
+	void Init(int screenWidth, int screenHeight, Texture2D layers[Parallax::MAX_LAYERS], bool twoP)
 	{
+
+		twoPlayers = twoP;
+
 		Parallax::Init(parallax, layers);
 
 		Player::Init(player1, screenWidth, screenHeight, Player::PlayerNumber::One);
@@ -47,7 +50,6 @@ namespace Game
 		{
 			Player::Update(player1, deltaTime, gravity);
 			ColisionManager::CheckColisions(player1, obstacle, screenHeight);
-
 		}
 
 		if (twoPlayers && player2.isAlive)

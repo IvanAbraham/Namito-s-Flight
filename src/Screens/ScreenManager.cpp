@@ -72,8 +72,6 @@ namespace ScreenManager
 
 		TextInit();
 
-		Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground);
-
 		Menu::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		Credits::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -83,6 +81,7 @@ namespace ScreenManager
 	{
 		bool isGameOver = false;
 		bool playButtonPressed = false;
+		bool twoPlayersButtonPressed = false;
 		bool creditsButtonPressed = false;
 		bool exitButtonPressed = false;
 		bool backButtonPressed = false;
@@ -90,10 +89,18 @@ namespace ScreenManager
 		switch (currentScreen)
 		{
 		case Screens::Menu:
-			Menu::Update(playButtonPressed, creditsButtonPressed, exitButtonPressed);
+			Menu::Update(playButtonPressed, twoPlayersButtonPressed, creditsButtonPressed, exitButtonPressed);
 			if (playButtonPressed)
 			{
 				currentScreen = Screens::Play;
+
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground, false);
+			}
+			else if (twoPlayersButtonPressed)
+			{
+				currentScreen = Screens::Play;
+
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground, true);
 			}
 			else if (creditsButtonPressed)
 			{
@@ -109,7 +116,6 @@ namespace ScreenManager
 			if (isGameOver)
 			{
 				currentScreen = Screens::Menu;
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, parallaxBackground);
 			}
 			break;
 		case Screens::Credits:
