@@ -15,10 +15,12 @@ namespace Game
 		Texture2D parallaxBackground[Parallax::MAX_LAYERS];
 	};
 
-	void Init(int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP);
+	void Init(Font font, int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP);
 
 	void Update(float deltaTime, int screenHeight, bool& isGameOver);
 
 	void Draw();
+
+	void GetScores(int& scoreP1, int& scoreP2);
 
 }

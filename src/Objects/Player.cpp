@@ -53,6 +53,8 @@ namespace Player
 
 		player.score = 0;
 
+		player.passedObstacle = false;
+
 		player.currentFrame = IDLE_FRAME;
 
 		if (pNum == PlayerNumber::One)

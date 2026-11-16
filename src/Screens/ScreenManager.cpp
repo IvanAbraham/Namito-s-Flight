@@ -6,6 +6,7 @@
 
 #include "ScreenGame.h"
 #include "ScreenMenu.h"
+#include "ScreenGameOver.h"
 #include "ScreenTutorial.h"
 #include "ScreenCredits.h"
 #include "Utils/Text.h"
@@ -32,6 +33,8 @@ namespace ScreenManager
 	static Game::GameTextures textures;
 
 	static Sounds::Sfx sfx;
+
+	static bool twoPlayersMode;
 
 	static void TextInit();
 
@@ -81,6 +84,8 @@ namespace ScreenManager
 
 		Menu::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+		GameOver::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 		Tutorial::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		Credits::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -95,6 +100,10 @@ namespace ScreenManager
 		bool creditsButtonPressed = false;
 		bool exitButtonPressed = false;
 		bool backButtonPressed = false;
+		bool menuKeyPressed = false;
+		bool restartKeyPressed = false;
+		int scoreP1 = 0;
+		int scoreP2 = 0;
 
 		switch (currentScreen)
 		{
@@ -104,13 +113,17 @@ namespace ScreenManager
 			{
 				currentScreen = Screens::Play;
 
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, false);
+				twoPlayersMode = false;
+
+				Game::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, twoPlayersMode);
 			}
 			else if (twoPlayersButtonPressed)
 			{
 				currentScreen = Screens::Play;
 
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, true);
+				twoPlayersMode = true;
+
+				Game::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, twoPlayersMode);
 			}
 			else if (tutorialButtonPressed)
 			{
@@ -128,6 +141,22 @@ namespace ScreenManager
 		case Screens::Play:
 			Game::Update(deltaTime, SCREEN_HEIGHT, isGameOver);
 			if (isGameOver)
+			{
+				Game::GetScores(scoreP1, scoreP2);
+				GameOver::SetScores(scoreP1, scoreP2, twoPlayersMode);
+
+				currentScreen = Screens::GameOver;
+			}
+			break;
+		case Screens::GameOver:
+			GameOver::Update(menuKeyPressed, restartKeyPressed);
+			if (restartKeyPressed)
+			{
+				currentScreen = Screens::Play;
+
+				Game::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, twoPlayersMode);
+			}
+			else if (menuKeyPressed)
 			{
 				currentScreen = Screens::Menu;
 			}
@@ -167,6 +196,10 @@ namespace ScreenManager
 			break;
 		case Screens::Play:
 			Game::Draw();
+			break;
+		case Screens::GameOver:
+			Game::Draw();
+			GameOver::Draw();
 			break;
 		case Screens::Tutorial:
 			Tutorial::Draw();

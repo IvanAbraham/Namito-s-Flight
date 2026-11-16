@@ -11,6 +11,17 @@ namespace Game
 	//Constantes
 	const float INITIAL_GRAVITY = 800.0f;
 
+	const int POINTS_PER_OBSTACLE = 15;
+
+	const float SCORE_FONT_SIZE = 40.0f;
+	const float SCORE_FONT_SPACING = 5.0f;
+
+	const Vector2 P1_SCORE_POS = { 20.0f, 10.0f };
+	const Vector2 P2_SCORE_POS = { 20.0f, 60.0f };
+
+	const Color PLAYER_1_COLOR = ORANGE;
+	const Color PLAYER_2_COLOR = PURPLE;
+
 	//Recursos
 	static Player::Player player1;
 	static Player::Player player2;
@@ -24,10 +35,38 @@ namespace Game
 
 	static Sound deathSound;
 
-	void Init(int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP)
+	static Font gameFont;
+
+
+	static void UpdateScore(Player::Player& player);
+
+
+	static void UpdateScore(Player::Player& player)
+	{
+		float obstacleRightEdge = obstacle.rectangleUp.x + obstacle.rectangleUp.width;
+
+		//Suma una sola vez cuando el obstaculo queda completamente a la izquierda del jugador
+		if (obstacleRightEdge < player.position.x)
+		{
+			if (!player.passedObstacle)
+			{
+				player.score += POINTS_PER_OBSTACLE;
+				player.passedObstacle = true;
+			}
+		}
+		else
+		{
+			//El obstaculo volvio a aparecer a la derecha: se puede volver a sumar
+			player.passedObstacle = false;
+		}
+	}
+
+	void Init(Font font, int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP)
 	{
 
 		twoPlayers = twoP;
+
+		gameFont = font;
 
 		Parallax::Init(parallax, textures.parallaxBackground);
 
@@ -62,10 +101,13 @@ namespace Game
 			Player::Update(player1, deltaTime, gravity);
 			ColisionManager::CheckColisions(player1, obstacle, screenHeight);
 
-			//Si murio en este frame (el bloque solo corre mientras estaba vivo), suena una sola vez
 			if (!player1.isAlive)
 			{
 				PlaySound(deathSound);
+			}
+			else
+			{
+				UpdateScore(player1);
 			}
 		}
 
@@ -77,6 +119,10 @@ namespace Game
 			if (!player2.isAlive)
 			{
 				PlaySound(deathSound);
+			}
+			else
+			{
+				UpdateScore(player2);
 			}
 		}
 		
@@ -120,6 +166,30 @@ namespace Game
 
 		Obtacle::Draw(obstacle);
 
+		//Puntaje 
+		if (twoPlayers)
+		{
+			DrawTextEx(gameFont, TextFormat("P1: %i", player1.score), P1_SCORE_POS, SCORE_FONT_SIZE, SCORE_FONT_SPACING, PLAYER_1_COLOR);
+			DrawTextEx(gameFont, TextFormat("P2: %i", player2.score), P2_SCORE_POS, SCORE_FONT_SIZE, SCORE_FONT_SPACING, PLAYER_2_COLOR);
+		}
+		else
+		{
+			DrawTextEx(gameFont, TextFormat("Score: %i", player1.score), P1_SCORE_POS, SCORE_FONT_SIZE, SCORE_FONT_SPACING, PLAYER_1_COLOR);
+		}
+	}
 
+	void GetScores(int& scoreP1, int& scoreP2)
+	{
+		scoreP1 = player1.score;
+
+		//En modo 1 jugador el player 2 no se inicializa, asi que no tiene puntaje valido
+		if (twoPlayers)
+		{
+			scoreP2 = player2.score;
+		}
+		else
+		{
+			scoreP2 = 0;
+		}
 	}
 }

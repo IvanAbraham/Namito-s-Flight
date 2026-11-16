@@ -25,6 +25,8 @@ namespace Player
 
 		int score;
 
+		bool passedObstacle;
+
 		KeyboardKey jumpKey;
 
 		Texture2D texture;
