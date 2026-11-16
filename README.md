@@ -2,18 +2,45 @@
 
 ## General Project Description
 
-Namito's Flight is my own interpretation of the classic Flappy Bird game
+Namito's Flight is an interpretation of the classic Flappy Bird game.
+
+This repository is a fork of the [original project](https://github.com/Namitof/Namito-s-Flight) by Suarez Nahuel, continued with new features such as a simultaneous 2 players mode.
+
+## Game Modes
+
+- **1 Player:** classic mode, you play as Player 1.
+- **2 Players:** both players fly at the same time. The game ends when no player is left alive.
+
+## Controls
+
+| Player   | Jump     |
+|----------|----------|
+| Player 1 | UP ARROW |
+| Player 2 | W        |
+
+Use the mouse to navigate the menus.
 
 ## Credits
 
 ### Game Developer
 [Suarez Nahuel](https://linktr.ee/Namitof)
 
+### Additional Development
+[Ivan Abraham](https://github.com/IvanAbraham)
+
 ### Assets
 
 **"Parallax Mountain Background"**
 By Ravenheartcawww
 https://bearbreath.itch.io/parallax-mountain-background
+
+**Player Sprites**
+By Ivan Abraham
+
+### Sound Effects
+
+**Sound Effects**
+By Ivan Abraham, made with [Bfxr](https://www.bfxr.net/)
 
 ### Font
 
