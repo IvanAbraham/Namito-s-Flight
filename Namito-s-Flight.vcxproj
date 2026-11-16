@@ -173,6 +173,7 @@
     <ClCompile Include="src\Screens\ScreenManager.cpp" />
     <ClCompile Include="src\Screens\ScreenMenu.cpp" />
     <ClCompile Include="src\Screens\ScreenGameOver.cpp" />
+    <ClCompile Include="src\Screens\ScreenPause.cpp" />
     <ClCompile Include="src\Screens\ScreenTutorial.cpp" />
     <ClCompile Include="src\Utils\GameSounds.cpp" />
     <ClCompile Include="src\Utils\Text.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\Screens\ScreenManager.h" />
     <ClInclude Include="src\Screens\ScreenMenu.h" />
     <ClInclude Include="src\Screens\ScreenGameOver.h" />
+    <ClInclude Include="src\Screens\ScreenPause.h" />
     <ClInclude Include="src\Screens\ScreenTutorial.h" />
     <ClInclude Include="src\Utils\GameSounds.h" />
     <ClInclude Include="src\Utils\Text.h" />

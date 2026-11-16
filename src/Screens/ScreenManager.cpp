@@ -12,6 +12,7 @@
 #include "Utils/Text.h"
 #include "Objects/Parallax.h"
 #include "Utils/GameSounds.h"
+#include "ScreenPause.h"
 
 namespace ScreenManager
 {
@@ -27,6 +28,7 @@ namespace ScreenManager
 	static Text::Text version;
 
 	static Screens currentScreen;
+	static Screens returnScreen;
 
 	static bool isRunning;
 
@@ -59,6 +61,7 @@ namespace ScreenManager
 	static void Init()
 	{
 		InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Namito's Flight");
+		SetExitKey(KEY_NULL);
 		InitAudioDevice();
 
 		SetRandomSeed(static_cast<unsigned int>(time(NULL)));
@@ -83,6 +86,8 @@ namespace ScreenManager
 		Sounds::Load(sfx);
 
 		Menu::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		Pause::Init(font, sfx,SCREEN_WIDTH,SCREEN_HEIGHT);
 
 		GameOver::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -102,6 +107,9 @@ namespace ScreenManager
 		bool backButtonPressed = false;
 		bool menuKeyPressed = false;
 		bool restartKeyPressed = false;
+		bool resumeButtonPressed = false;;
+		bool menuButtonPressed = false;
+
 		int scoreP1 = 0;
 		int scoreP2 = 0;
 
@@ -127,6 +135,8 @@ namespace ScreenManager
 			}
 			else if (tutorialButtonPressed)
 			{
+				returnScreen = Screens::Menu;
+
 				currentScreen = Screens::Tutorial;
 			}
 			else if (creditsButtonPressed)
@@ -147,7 +157,34 @@ namespace ScreenManager
 
 				currentScreen = Screens::GameOver;
 			}
+
+			else if (IsKeyPressed(Pause::PAUSE_KEY))
+			{
+				currentScreen = Screens::Pause;
+			}
+
 			break;
+
+		case Screens::Pause:
+
+			Pause::Update(resumeButtonPressed, tutorialButtonPressed, menuButtonPressed);
+			if (resumeButtonPressed || IsKeyPressed(KEY_PAUSE))
+			{
+				currentScreen = Screens::Play;
+			}
+			else if (tutorialButtonPressed)
+			{
+				returnScreen = Screens::Pause;
+
+				currentScreen = Screens::Tutorial;
+			}
+			else if (menuButtonPressed)
+			{
+				currentScreen = Screens::Menu;
+			}
+
+			break;
+
 		case Screens::GameOver:
 			GameOver::Update(menuKeyPressed, restartKeyPressed);
 			if (restartKeyPressed)
@@ -165,7 +202,7 @@ namespace ScreenManager
 			Tutorial::Update(backButtonPressed);
 			if (backButtonPressed)
 			{
-				currentScreen = Screens::Menu;
+				currentScreen = returnScreen;
 			}
 			break;
 		case Screens::Credits:
@@ -196,6 +233,9 @@ namespace ScreenManager
 			break;
 		case Screens::Play:
 			Game::Draw();
+			break;
+		case Screens::Pause:
+			Pause::Draw();
 			break;
 		case Screens::GameOver:
 			Game::Draw();
