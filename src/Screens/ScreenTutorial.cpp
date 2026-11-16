@@ -4,6 +4,7 @@
 
 #include "Utils/Text.h"
 #include "Objects/Button.h"
+#include "Utils/GameSounds.h"
 
 namespace Tutorial
 {
@@ -28,6 +29,8 @@ namespace Tutorial
 	const Color PLAYER_1_COLOR = ORANGE;
 	const Color PLAYER_2_COLOR = PURPLE;
 
+	const int BACK_HOVER_SOUND = 5;
+
 	//Recursos
 	static Text::Text title;
 	static Text::Text player1Controls;
@@ -39,12 +42,12 @@ namespace Tutorial
 	static Font menuFont;
 
 
-	static void ButtonsInit(int screenWidth, int screenHeight);
+	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 
 	static void TextInit();
 
 
-	static void ButtonsInit(int screenWidth, int screenHeight)
+	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		//Init a cada boton
 		Vector2 buttonPos;
@@ -70,7 +73,7 @@ namespace Tutorial
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Back", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(back, defaultColor, selectColor, hitbox, text);
+		Button::Init(back, defaultColor, selectColor, hitbox, text, sfx.hoverButton[BACK_HOVER_SOUND], sfx.pressButton);
 	}
 
 	static void TextInit()
@@ -83,11 +86,11 @@ namespace Tutorial
 		Text::Init(modeInfo, menuFont, FONT_SIZE_CONTROLS, "In 1 player mode you play as Player 1", MODE_INFO_POS, CONTROLS_FONT_SPACING, BLACK);
 	}
 
-	void Init(Font font, int screenWidth, int screenHeight)
+	void Init(Font font, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		menuFont = font;
 		TextInit();
-		ButtonsInit(screenWidth, screenHeight);
+		ButtonsInit(sfx, screenWidth, screenHeight);
 	}
 
 	void Update(bool& backButtonPressed)

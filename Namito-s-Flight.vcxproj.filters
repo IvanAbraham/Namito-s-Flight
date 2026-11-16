@@ -69,6 +69,9 @@
     <ClCompile Include="src\Objects\Parallax.cpp">
       <Filter>Archivos de origen\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utils\GameSounds.cpp">
+      <Filter>Archivos de origen\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Screens\ScreenManager.h">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="src\Objects\Parallax.h">
       <Filter>Archivos de encabezado\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\GameSounds.h">
+      <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

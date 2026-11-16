@@ -4,6 +4,7 @@
 
 #include "Utils/Text.h"
 #include "Objects/Button.h"
+#include "Utils/GameSounds.h"
 
 namespace Menu
 {
@@ -32,6 +33,13 @@ namespace Menu
 	const int CREDITS_BUTTON_INDEX = 3;
 	const int EXIT_BUTTON_INDEX = 4;
 
+	//Indice del sonido de hover de cada boton (Sounds::Sfx::hoverButton)
+	const int PLAY_HOVER_SOUND = 0;
+	const int TWO_PLAYERS_HOVER_SOUND = 1;
+	const int TUTORIAL_HOVER_SOUND = 2;
+	const int CREDITS_HOVER_SOUND = 3;
+	const int EXIT_HOVER_SOUND = 4;
+
 	const Vector2 TITLE_POS = { 100.0f, 100.0f };
 
 	//Recursos
@@ -48,7 +56,7 @@ namespace Menu
 
 	static float GetButtonPosY(int screenHeight, int buttonIndex);
 
-	static void ButtonsInit(int screenWidth, int screenHeight);
+	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 
 	static void TextInit();
 
@@ -58,7 +66,7 @@ namespace Menu
 		return static_cast<float>((screenHeight / SCREEN_ROWS) * (FIRST_BUTTON_ROW + ROWS_BETWEEN_BUTTONS * buttonIndex));
 	}
 
-	static void ButtonsInit(int screenWidth, int screenHeight)
+	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		//Init a cada boton
 		Vector2 buttonPos;
@@ -85,7 +93,7 @@ namespace Menu
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Play", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(play, defaultColor, selectColor, hitbox, text);
+		Button::Init(play, defaultColor, selectColor, hitbox, text, sfx.hoverButton[PLAY_HOVER_SOUND], sfx.pressPlayButton);
 
 		//TWO PLAYERS
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
@@ -101,7 +109,7 @@ namespace Menu
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "2 Players", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(twoPlayers, defaultColor, selectColor, hitbox, text);
+		Button::Init(twoPlayers, defaultColor, selectColor, hitbox, text, sfx.hoverButton[TWO_PLAYERS_HOVER_SOUND], sfx.pressPlayButton);
 
 		//TUTORIAL
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
@@ -117,7 +125,7 @@ namespace Menu
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Tutorial", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(tutorial, defaultColor, selectColor, hitbox, text);
+		Button::Init(tutorial, defaultColor, selectColor, hitbox, text, sfx.hoverButton[TUTORIAL_HOVER_SOUND], sfx.pressButton);
 
 		//CREDITS
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
@@ -133,7 +141,7 @@ namespace Menu
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Credits", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(credits, defaultColor, selectColor, hitbox, text);
+		Button::Init(credits, defaultColor, selectColor, hitbox, text, sfx.hoverButton[CREDITS_HOVER_SOUND], sfx.pressButton);
 
 		//EXIT
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
@@ -149,7 +157,7 @@ namespace Menu
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Exit", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(exit, defaultColor, selectColor, hitbox, text);
+		Button::Init(exit, defaultColor, selectColor, hitbox, text, sfx.hoverButton[EXIT_HOVER_SOUND], sfx.pressButton);
 	}
 
 	static void TextInit()
@@ -157,11 +165,11 @@ namespace Menu
 		Text::Init(title, menuFont, FONT_SIZE_TITLE, "Namito's Flight", TITLE_POS, TITLE_FONT_SPACING, BLACK);
 	}
 
-	void Init(Font font, int screenWidth, int screenHeight)
+	void Init(Font font, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		menuFont = font;
 		TextInit();
-		ButtonsInit(screenWidth, screenHeight);
+		ButtonsInit(sfx, screenWidth, screenHeight);
 	}
 
 	void Update(bool& playButtonPressed, bool& twoPlayersButtonPressed, bool& tutorialButtonPressed, bool& creditsButtonPressed, bool& exitButtonPressed)

@@ -7,7 +7,7 @@
 
 namespace Button
 {
-	void Init(Button& currentButton, Color buttonColor, Color selectColor, Rectangle hitbox, Text::Text text /*, Sprite::Sprite defaultSprite, Sprite::Sprite selectSprite*/)
+	void Init(Button& currentButton, Color buttonColor, Color selectColor, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound /*, Sprite::Sprite defaultSprite, Sprite::Sprite selectSprite*/)
 	{
 		currentButton.isPressed = false;
 		currentButton.wasPressed = false;
@@ -22,6 +22,9 @@ namespace Button
 		currentButton.hitbox = hitbox;
 
 		currentButton.text = text;
+
+		currentButton.hoverSound = hoverSound;
+		currentButton.pressSound = pressSound;
 
 		// currentButton.defaultSprite = defaultSprite;
 		// currentButton.currentSprite = defaultSprite;
@@ -41,6 +44,13 @@ namespace Button
 		{
 			currentButton.isMouseOnButton = true;
 			currentButton.currentColor = currentButton.selectColor;
+
+			//El sonido de hover suena una sola vez al entrar el mouse
+			if (!currentButton.soundIsPlaying)
+			{
+				PlaySound(currentButton.hoverSound);
+				currentButton.soundIsPlaying = true;
+			}
 			// currentButton.currentSprite = currentButton.selectSprite;
 		}
 		else
@@ -63,6 +73,11 @@ namespace Button
 			currentButton.isPressed = false;
 		}
 
+		//El click se confirma al soltar el boton (misma condicion que usan las pantallas)
+		if (!currentButton.isPressed && currentButton.wasPressed)
+		{
+			PlaySound(currentButton.pressSound);
+		}
 	}
 
 	void Draw(Button currentButton)

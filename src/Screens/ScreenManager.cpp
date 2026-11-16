@@ -10,6 +10,7 @@
 #include "ScreenCredits.h"
 #include "Utils/Text.h"
 #include "Objects/Parallax.h"
+#include "Utils/GameSounds.h"
 
 namespace ScreenManager
 {
@@ -18,7 +19,6 @@ namespace ScreenManager
 	static const int SCREEN_HEIGHT = 720;
 
 	static const int MAX_FONT_SIZE = 100;
-
 
 	//Recursos
 	static Font font;
@@ -31,6 +31,7 @@ namespace ScreenManager
 
 	static Game::GameTextures textures;
 
+	static Sounds::Sfx sfx;
 
 	static void TextInit();
 
@@ -55,6 +56,7 @@ namespace ScreenManager
 	static void Init()
 	{
 		InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Namito's Flight");
+		InitAudioDevice();
 
 		SetRandomSeed(static_cast<unsigned int>(time(NULL)));
 
@@ -75,11 +77,13 @@ namespace ScreenManager
 
 		TextInit();
 
-		Menu::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Sounds::Load(sfx);
 
-		Tutorial::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Menu::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		Credits::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Tutorial::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		Credits::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
 	static void Update(float deltaTime)
@@ -189,6 +193,8 @@ namespace ScreenManager
 		}
 		UnloadTexture(textures.player1);
 		UnloadTexture(textures.player2);
+
+		Sounds::Unload(sfx);
 	}
 
 	void Run()
@@ -212,6 +218,9 @@ namespace ScreenManager
 
 		// Borrar y liberar recursos
 		Delete();
+
+		// Cierro el dispositivo de audio
+		CloseAudioDevice();
 
 		// Cierre
 		CloseWindow();

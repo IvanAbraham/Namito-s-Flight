@@ -173,6 +173,7 @@
     <ClCompile Include="src\Screens\ScreenManager.cpp" />
     <ClCompile Include="src\Screens\ScreenMenu.cpp" />
     <ClCompile Include="src\Screens\ScreenTutorial.cpp" />
+    <ClCompile Include="src\Utils\GameSounds.cpp" />
     <ClCompile Include="src\Utils\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="src\Screens\ScreenManager.h" />
     <ClInclude Include="src\Screens\ScreenMenu.h" />
     <ClInclude Include="src\Screens\ScreenTutorial.h" />
+    <ClInclude Include="src\Utils\GameSounds.h" />
     <ClInclude Include="src\Utils\Text.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

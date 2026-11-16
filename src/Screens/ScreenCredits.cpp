@@ -4,6 +4,7 @@
 
 #include "Utils/Text.h"
 #include "Objects/Button.h"
+#include "Utils/GameSounds.h"
 
 namespace Credits
 {
@@ -20,6 +21,8 @@ namespace Credits
 	const Vector2 CREDITS_POS = { 100.0f, 100.0f };
 	const Vector2 ADDITIONAL_CREDITS_POS = { 100.0f, 160.0f };
 
+	const int BACK_HOVER_SOUND = 6;
+
 	//Recursos
 	static Text::Text credits;
 	static Text::Text additionalCredits;
@@ -29,12 +32,12 @@ namespace Credits
 	static Font menuFont;
 
 
-	static void ButtonsInit(int screenWidth, int screenHeight);
+	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 
 	static void TextInit();
 
 
-	static void ButtonsInit(int screenWidth, int screenHeight)
+	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		//Init a cada boton
 		Vector2 buttonPos;
@@ -61,7 +64,7 @@ namespace Credits
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Back", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(back, defaultColor, selectColor, hitbox, text);
+		Button::Init(back, defaultColor, selectColor, hitbox, text, sfx.hoverButton[BACK_HOVER_SOUND], sfx.pressButton);
 	}
 
 	static void TextInit()
@@ -70,11 +73,11 @@ namespace Credits
 		Text::Init(additionalCredits, menuFont, FONT_SIZE_TITLE, "Additional Development by: Ivan Abraham", ADDITIONAL_CREDITS_POS, TITLE_FONT_SPACING, BLACK);
 	}
 
-	void Init(Font font, int screenWidth, int screenHeight)
+	void Init(Font font, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		menuFont = font;
 		TextInit();
-		ButtonsInit(screenWidth, screenHeight);
+		ButtonsInit(sfx, screenWidth, screenHeight);
 	}
 
 	void Update(bool& backButtonPressed)

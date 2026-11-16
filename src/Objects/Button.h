@@ -28,12 +28,16 @@ namespace Button
 
 		Rectangle hitbox;
 
+		Sound hoverSound;
+
+		Sound pressSound;
+
 		// Sprite::Sprite currentSprite;
 		// Sprite::Sprite defaultSprite;
 		// Sprite::Sprite selectSprite;
 	};
 
-	void Init(Button& currentButton, Color buttonColor, Color selectColor, Rectangle hitbox, Text::Text text /*, Sprite::Sprite defaultSprite, Sprite::Sprite selectSprite*/ );
+	void Init(Button& currentButton, Color buttonColor, Color selectColor, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound /*, Sprite::Sprite defaultSprite, Sprite::Sprite selectSprite*/ );
 
 	void Update(Button& currentButton, Vector2 mousePosition);
 
