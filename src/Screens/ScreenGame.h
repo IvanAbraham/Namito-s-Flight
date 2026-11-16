@@ -3,6 +3,7 @@
 #include <raylib.h>
 
 #include "Objects/Parallax.h"
+#include "Utils/GameSounds.h"
 
 namespace Game
 {
@@ -14,7 +15,7 @@ namespace Game
 		Texture2D parallaxBackground[Parallax::MAX_LAYERS];
 	};
 
-	void Init(int screenWidth, int screenHeight, GameTextures& textures, bool twoP);
+	void Init(int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP);
 
 	void Update(float deltaTime, int screenHeight, bool& isGameOver);
 

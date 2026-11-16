@@ -29,6 +29,8 @@ namespace Player
 
 		Texture2D texture;
 
+		Sound jumpSound;
+
 		int currentFrame;
 
 		float frameTimer;

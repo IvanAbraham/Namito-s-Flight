@@ -73,6 +73,8 @@ namespace Player
 			player.verticalVelocity = player.jumpForce * UP_DIR.y;
 			player.direction = UP_DIR;
 
+			PlaySound(player.jumpSound);
+
 			//Seteo el inicio de la animación
 
 			player.currentFrame = JUMP_FIRS_TFRAME;

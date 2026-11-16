@@ -4,6 +4,7 @@
 #include "Objects/Obstacle.h"
 #include "Objects/CollisionManager.h"
 #include "Objects/Parallax.h"
+#include "Utils/GameSounds.h"
 
 namespace Game
 {
@@ -21,20 +22,26 @@ namespace Game
 
 	static float gravity;
 
-	void Init(int screenWidth, int screenHeight, GameTextures& textures, bool twoP)
+	static Sound deathSound;
+
+	void Init(int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP)
 	{
 
 		twoPlayers = twoP;
 
 		Parallax::Init(parallax, textures.parallaxBackground);
 
+		deathSound = sfx.death;
+
 		player1.texture = textures.player1;
+		player1.jumpSound = sfx.jumpP1;
 
 		Player::Init(player1, screenWidth, screenHeight, Player::PlayerNumber::One);
 		
 		if (twoPlayers)
 		{
 			player2.texture = textures.player2;
+			player2.jumpSound = sfx.jumpP2;
 
 			Player::Init(player2, screenWidth, screenHeight, Player::PlayerNumber::Two);
 		}
@@ -54,12 +61,23 @@ namespace Game
 		{
 			Player::Update(player1, deltaTime, gravity);
 			ColisionManager::CheckColisions(player1, obstacle, screenHeight);
+
+			//Si murio en este frame (el bloque solo corre mientras estaba vivo), suena una sola vez
+			if (!player1.isAlive)
+			{
+				PlaySound(deathSound);
+			}
 		}
 
 		if (twoPlayers && player2.isAlive)
 		{
 			Player::Update(player2, deltaTime, gravity);
 			ColisionManager::CheckColisions(player2, obstacle, screenHeight);
+
+			if (!player2.isAlive)
+			{
+				PlaySound(deathSound);
+			}
 		}
 		
 		if (twoPlayers)

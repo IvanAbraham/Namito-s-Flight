@@ -104,13 +104,13 @@ namespace ScreenManager
 			{
 				currentScreen = Screens::Play;
 
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, false);
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, false);
 			}
 			else if (twoPlayersButtonPressed)
 			{
 				currentScreen = Screens::Play;
 
-				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, true);
+				Game::Init(SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, true);
 			}
 			else if (tutorialButtonPressed)
 			{
