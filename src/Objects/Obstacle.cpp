@@ -5,7 +5,7 @@
 namespace Obtacle
 {
 	//Constantes
-	static const float OFFSET_VALUE = 150.0f;
+	static const float OFFSET_VALUE = 240.0f;
 
 	static const float OFFSET_SCREEN_LIMITS = 50.0f;
 

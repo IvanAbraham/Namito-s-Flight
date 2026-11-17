@@ -168,7 +168,7 @@ namespace ScreenManager
 		case Screens::Pause:
 
 			Pause::Update(resumeButtonPressed, tutorialButtonPressed, menuButtonPressed);
-			if (resumeButtonPressed || IsKeyPressed(KEY_PAUSE))
+			if (resumeButtonPressed || IsKeyPressed(Pause::PAUSE_KEY))
 			{
 				currentScreen = Screens::Play;
 			}
@@ -235,6 +235,7 @@ namespace ScreenManager
 			Game::Draw();
 			break;
 		case Screens::Pause:
+			Game::Draw();
 			Pause::Draw();
 			break;
 		case Screens::GameOver:
