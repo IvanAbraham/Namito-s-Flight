@@ -6,6 +6,8 @@
 #include "Objects/Parallax.h"
 #include "Utils/GameSounds.h"
 
+#include <iostream>
+
 namespace Game
 {
 	//Constantes
@@ -15,13 +17,22 @@ namespace Game
 
 	const float SCORE_FONT_SIZE = 40.0f;
 	const float SCORE_FONT_SPACING = 5.0f;
+	
+	const float STANDBY_COUNTDOWN_SIZE = 90.0f;
+	const float STANDBY_COUNTDOWN_SPACING = 10.0f;
+
+	const float STANDBY_TIME = 3.0f;
+
+	const float OVERLAY_ALPHA = 0.2f;
 
 	const Vector2 P1_SCORE_POS = { 20.0f, 10.0f };
 	const Vector2 P2_SCORE_POS = { 20.0f, 60.0f };
 
+	const Vector2 STANDBY_COUNTDOWN_POS = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
+
 	const Color PLAYER_1_COLOR = ORANGE;
 	const Color PLAYER_2_COLOR = PURPLE;
-
+	const Color STANDBY_COUNTDOWN_COLOR = RAYWHITE;
 	//Recursos
 	static Player::Player player1;
 	static Player::Player player2;
@@ -33,10 +44,15 @@ namespace Game
 
 	static float gravity;
 
+	static float standbyTimer;
+	static bool standby;
+
 	static Sound deathSound;
 
 	static Font gameFont;
 
+	static int width;
+	static int height;
 
 	static void UpdateScore(Player::Player& player);
 
@@ -63,6 +79,10 @@ namespace Game
 
 	void Init(Font font, int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP)
 	{
+		standbyTimer = STANDBY_TIME;
+
+		width = screenWidth;
+		height = screenHeight;
 
 		twoPlayers = twoP;
 
@@ -92,68 +112,86 @@ namespace Game
 		gravity = INITIAL_GRAVITY;
 	}
 
-	void Update(float deltaTime, int screenHeight, bool& isGameOver)
+	void Update(float deltaTime, int screenHeight, bool& isGameOver, bool& changeIntoGameplay)
 	{
-		Parallax::Update(parallax, deltaTime);
-
-		Obtacle::Update(obstacle, deltaTime);
-
-		if (player1.isAlive)
+		if (changeIntoGameplay)
 		{
-			Player::Update(player1, deltaTime, gravity);
-			ColisionManager::CheckColisions(player1, obstacle, screenHeight);
-
-			if (!player1.isAlive)
-			{
-				PlaySound(deathSound);
-			}
-			else
-			{
-				UpdateScore(player1);
-			}
+			standbyTimer = STANDBY_TIME;
+			changeIntoGameplay = false;
+			std::cout << "PAUSED";
+			
 		}
+	
+		standby = standbyTimer > 0;
 
-		if (twoPlayers && player2.isAlive)
+		if (!standby)
 		{
-			Player::Update(player2, deltaTime, gravity);
-			ColisionManager::CheckColisions(player2, obstacle, screenHeight);
+			Parallax::Update(parallax, deltaTime);
 
-			if (!player2.isAlive)
+			Obtacle::Update(obstacle, deltaTime);
+
+			if (player1.isAlive)
 			{
-				PlaySound(deathSound);
+				Player::Update(player1, deltaTime, gravity);
+				ColisionManager::CheckColisions(player1, obstacle, screenHeight);
+
+				if (!player1.isAlive)
+				{
+					PlaySound(deathSound);
+				}
+				else
+				{
+					UpdateScore(player1);
+				}
+			}
+
+			if (twoPlayers && player2.isAlive)
+			{
+				Player::Update(player2, deltaTime, gravity);
+				ColisionManager::CheckColisions(player2, obstacle, screenHeight);
+
+				if (!player2.isAlive)
+				{
+					PlaySound(deathSound);
+				}
+				else
+				{
+					UpdateScore(player2);
+				}
+			}
+
+			if (twoPlayers)
+			{
+				if (!player1.isAlive && !player2.isAlive)
+				{
+					isGameOver = true;
+				}
+				else
+				{
+					isGameOver = false;
+				}
 			}
 			else
 			{
-				UpdateScore(player2);
-			}
-		}
-		
-		if (twoPlayers)
-		{
-			if (!player1.isAlive && !player2.isAlive)
-			{
-				isGameOver = true;
-			}
-			else
-			{
-				isGameOver = false;
+				if (!player1.isAlive)
+				{
+					isGameOver = true;
+				}
+				else
+				{
+					isGameOver = false;
+				}
 			}
 		}
 		else
 		{
-			if (!player1.isAlive)
-			{
-				isGameOver = true;
-			}
-			else
-			{
-				isGameOver = false;
-			}
+			standbyTimer -= deltaTime;
 		}
 	}
 
 	void Draw()
 	{
+		
 		Parallax::Draw(parallax);
 		
 		if (player1.isAlive)
@@ -178,6 +216,13 @@ namespace Game
 		{
 			DrawTextEx(gameFont, TextFormat("Score: %i", player1.score), P1_SCORE_POS, SCORE_FONT_SIZE, SCORE_FONT_SPACING, PLAYER_1_COLOR);
 		}
+
+		if (standby)
+		{
+			DrawRectangle(0, 0, width, height, Fade(BLACK, OVERLAY_ALPHA));
+			DrawTextEx(gameFont, TextFormat("STARTS IN: %i", static_cast<int>(standbyTimer)), STANDBY_COUNTDOWN_POS, STANDBY_COUNTDOWN_SIZE, STANDBY_COUNTDOWN_SPACING, STANDBY_COUNTDOWN_COLOR);
+		}
+
 	}
 
 	void GetScores(int& scoreP1, int& scoreP2)

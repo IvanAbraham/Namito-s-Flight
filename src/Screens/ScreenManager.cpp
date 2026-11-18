@@ -44,6 +44,7 @@ namespace ScreenManager
 	static Sounds::Songs music;
 
 	static bool twoPlayersMode;
+	static bool changeToGameplay;
 
 	static void TextInit();
 
@@ -125,7 +126,7 @@ namespace ScreenManager
 		bool resumeButtonPressed = false;;
 		bool menuButtonPressed = false;
 		bool isGameplay = currentScreen == Screens::Play || currentScreen == Screens::Pause || currentScreen == Screens::GameOver;
-
+		
 		int scoreP1 = 0;
 		int scoreP2 = 0;
 
@@ -138,7 +139,7 @@ namespace ScreenManager
 			if (playButtonPressed)
 			{
 				currentScreen = Screens::Play;
-
+				
 				twoPlayersMode = false;
 
 				Game::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, twoPlayersMode);
@@ -146,7 +147,7 @@ namespace ScreenManager
 			else if (twoPlayersButtonPressed)
 			{
 				currentScreen = Screens::Play;
-
+				
 				twoPlayersMode = true;
 
 				Game::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT, textures, sfx, twoPlayersMode);
@@ -167,7 +168,8 @@ namespace ScreenManager
 			}
 			break;
 		case Screens::Play:
-			Game::Update(deltaTime, SCREEN_HEIGHT, isGameOver);
+			Game::Update(deltaTime, SCREEN_HEIGHT, isGameOver, changeToGameplay);
+
 			if (isGameOver)
 			{
 				Game::GetScores(scoreP1, scoreP2);
@@ -176,7 +178,7 @@ namespace ScreenManager
 				currentScreen = Screens::GameOver;
 			}
 
-			else if (IsKeyPressed(Pause::PAUSE_KEY))
+			else if (IsKeyPressed(Pause::PAUSE_KEY) || IsKeyPressed(Pause::ALT_PAUSE))
 			{
 				currentScreen = Screens::Pause;
 			}
@@ -186,8 +188,9 @@ namespace ScreenManager
 		case Screens::Pause:
 
 			Pause::Update(resumeButtonPressed, tutorialButtonPressed, menuButtonPressed);
-			if (resumeButtonPressed || IsKeyPressed(Pause::PAUSE_KEY))
+			if (resumeButtonPressed || IsKeyPressed(Pause::PAUSE_KEY) || IsKeyPressed(Pause::ALT_PAUSE))
 			{
+				changeToGameplay = true;
 				currentScreen = Screens::Play;
 			}
 			else if (tutorialButtonPressed)

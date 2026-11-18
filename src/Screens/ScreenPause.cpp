@@ -1,7 +1,5 @@
 #include "ScreenPause.h"
 
-#include <string>
-
 #include <raylib.h>
 
 #include "Utils/Text.h"

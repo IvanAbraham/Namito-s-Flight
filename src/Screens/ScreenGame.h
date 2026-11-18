@@ -18,7 +18,7 @@ namespace Game
 
 	void Init(Font font, int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP);
 
-	void Update(float deltaTime, int screenHeight, bool& isGameOver);
+	void Update(float deltaTime, int screenHeight, bool& isGameOver, bool& changeIntoGameplay);
 
 	void Draw();
 
