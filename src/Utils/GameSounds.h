@@ -16,7 +16,15 @@ namespace Sounds
 		Sound death;
 	};
 
-	void Load(Sfx& sounds);
+	struct Songs
+	{
+		Music menuMusic;
+		Music gameMusic;
+	};
 
-	void Unload(Sfx& sounds);
+	void Load(Sfx& sounds, Songs& music);
+
+	void Update(Songs& music, bool isGameplay);
+
+	void Unload(Sfx& sounds, Songs& music);
 }

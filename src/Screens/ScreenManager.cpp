@@ -41,6 +41,7 @@ namespace ScreenManager
 	static Button::ButtonTextures buttonTextures;
 
 	static Sounds::Sfx sfx;
+	static Sounds::Songs music;
 
 	static bool twoPlayersMode;
 
@@ -97,7 +98,7 @@ namespace ScreenManager
 
 		TextInit();
 
-		Sounds::Load(sfx);
+		Sounds::Load(sfx, music);
 
 		Menu::Init(font, menuBackground, buttonTextures, sfx, SCREEN_HEIGHT);
 		
@@ -123,10 +124,13 @@ namespace ScreenManager
 		bool restartKeyPressed = false;
 		bool resumeButtonPressed = false;;
 		bool menuButtonPressed = false;
+		bool isGameplay = currentScreen == Screens::Play || currentScreen == Screens::Pause || currentScreen == Screens::GameOver;
 
 		int scoreP1 = 0;
 		int scoreP2 = 0;
 
+		Sounds::Update(music, isGameplay);
+		
 		switch (currentScreen)
 		{
 		case Screens::Menu:
@@ -290,7 +294,7 @@ namespace ScreenManager
 		UnloadTexture(buttonTextures.normal);
 		UnloadTexture(buttonTextures.hover);
 
-		Sounds::Unload(sfx);
+		Sounds::Unload(sfx, music);
 	}
 
 	void Run()
