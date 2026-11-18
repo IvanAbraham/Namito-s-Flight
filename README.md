@@ -45,8 +45,17 @@ By Ivan Abraham, made with [Bfxr](https://www.bfxr.net/)
 ### Font
 
 **"Accidental Presidency"**
-By Tepid Monkey
-https://www.dafont.com/es/accidental-presiden.font
+By [Tepid Monkey](https://www.dafont.com/es/accidental-presiden.font)
+
+### Music
+
+**"Switch with me"**
+By [Not Jam](https://mastodon.gamedev.place/@NotJam)
+
+**"Pitcher Perfect"**
+By [Not Jam](https://mastodon.gamedev.place/@NotJam)
+
+Both songs are from the [Not Jam Music Pack](https://not-jam.itch.io/not-jam-music-pack)
 
 ### Special Thanks
 
