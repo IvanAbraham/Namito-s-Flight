@@ -13,10 +13,10 @@ This repository is a fork of the [original project](https://github.com/Namitof/N
 
 ## Controls
 
-| Player   | Jump     |
-|----------|----------|
-| Player 1 | UP ARROW |
-| Player 2 | W        |
+| Player   | Jump     |Pause |
+|----------|----------|------|
+| Player 1 | UP ARROW |ESC   |
+| Player 2 | W        |ESC   |
 
 Use the mouse to navigate the menus.
 
@@ -34,7 +34,7 @@ Use the mouse to navigate the menus.
 By Ravenheartcawww
 https://bearbreath.itch.io/parallax-mountain-background
 
-**Player Sprites**
+**Sprites & art**
 By Ivan Abraham
 
 ### Sound Effects
