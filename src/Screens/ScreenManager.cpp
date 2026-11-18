@@ -218,14 +218,14 @@ namespace ScreenManager
 			break;
 		case Screens::Tutorial:
 			Tutorial::Update(backButtonPressed);
-			if (backButtonPressed)
+			if (backButtonPressed || IsKeyPressed(KEY_ESCAPE))
 			{
 				currentScreen = returnScreen;
 			}
 			break;
 		case Screens::Credits:
 			Credits::Update(backButtonPressed);
-			if (backButtonPressed)
+			if (backButtonPressed || IsKeyPressed(KEY_ESCAPE))
 			{
 				currentScreen = Screens::Menu;
 			}
