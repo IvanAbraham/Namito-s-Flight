@@ -6,8 +6,6 @@
 #include "Objects/Parallax.h"
 #include "Utils/GameSounds.h"
 
-#include <iostream>
-
 namespace Game
 {
 	//Constantes
@@ -118,8 +116,6 @@ namespace Game
 		{
 			standbyTimer = STANDBY_TIME;
 			changeIntoGameplay = false;
-			std::cout << "PAUSED";
-			
 		}
 	
 		standby = standbyTimer > 0;
