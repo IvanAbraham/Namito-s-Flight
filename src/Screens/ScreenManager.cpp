@@ -44,7 +44,6 @@ namespace ScreenManager
 	static Sounds::Songs music;
 
 	static bool twoPlayersMode;
-	static bool changeToGameplay;
 
 	static void TextInit();
 
@@ -168,7 +167,7 @@ namespace ScreenManager
 			}
 			break;
 		case Screens::Play:
-			Game::Update(deltaTime, SCREEN_HEIGHT, isGameOver, changeToGameplay);
+			Game::Update(deltaTime, SCREEN_HEIGHT, isGameOver);
 
 			if (isGameOver)
 			{
@@ -190,7 +189,7 @@ namespace ScreenManager
 			Pause::Update(resumeButtonPressed, tutorialButtonPressed, menuButtonPressed);
 			if (resumeButtonPressed || IsKeyPressed(Pause::PAUSE_KEY) || IsKeyPressed(Pause::ALT_PAUSE))
 			{
-				changeToGameplay = true;
+				Game::RestartStandby();
 				currentScreen = Screens::Play;
 			}
 			else if (tutorialButtonPressed)

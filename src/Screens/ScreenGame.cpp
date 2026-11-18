@@ -75,7 +75,7 @@ namespace Game
 
 	void Init(Font font, int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP)
 	{
-		standbyTimer = STANDBY_TIME;
+		RestartStandby();
 
 		width = screenWidth;
 		height = screenHeight;
@@ -108,14 +108,8 @@ namespace Game
 		gravity = INITIAL_GRAVITY;
 	}
 
-	void Update(float deltaTime, int screenHeight, bool& isGameOver, bool& changeIntoGameplay)
+	void Update(float deltaTime, int screenHeight, bool& isGameOver)
 	{
-		if (changeIntoGameplay)
-		{
-			standbyTimer = STANDBY_TIME;
-			changeIntoGameplay = false;
-		}
-	
 		standby = standbyTimer > 0;
 
 		if (!standby)
@@ -238,5 +232,10 @@ namespace Game
 		{
 			scoreP2 = 0;
 		}
+	}
+
+	void RestartStandby()
+	{
+		standbyTimer = STANDBY_TIME;
 	}
 }
