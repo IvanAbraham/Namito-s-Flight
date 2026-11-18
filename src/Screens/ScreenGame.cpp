@@ -220,7 +220,7 @@ namespace Game
 		if (standby)
 		{
 			DrawRectangle(0, 0, width, height, Fade(BLACK, OVERLAY_ALPHA));
-			DrawTextEx(gameFont, TextFormat("STARTS IN: %i", static_cast<int>(standbyTimer + 1.0f)), STANDBY_COUNTDOWN_POS, STANDBY_COUNTDOWN_SIZE, STANDBY_COUNTDOWN_SPACING, STANDBY_COUNTDOWN_COLOR);
+			DrawTextEx(gameFont, TextFormat("Starting in %i", static_cast<int>(standbyTimer + 1.0f)), STANDBY_COUNTDOWN_POS, STANDBY_COUNTDOWN_SIZE, STANDBY_COUNTDOWN_SPACING, STANDBY_COUNTDOWN_COLOR);
 		}
 
 	}
