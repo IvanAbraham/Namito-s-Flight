@@ -20,11 +20,6 @@ namespace Pause
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;
 
-	const float RESUME_TEXT_OFFSET_X = 20.0f;
-	const float TUTORIAL_TEXT_OFFSET_X = 20.0f;
-	const float MENU_TEXT_OFFSET_X = 20.0f;
-	const float BUTTONS_TEXT_OFFSET_Y = 5.0f;
-
 	//La pantalla se divide en filas; cada boton arranca en su fila (dejando una libre entre botones)
 	const int SCREEN_ROWS = 12;
 	const int RESUME_BUTTON_ROW = 4;
@@ -51,7 +46,7 @@ namespace Pause
 
 	static float GetButtonPosY(int screenHeight, int buttonRow);
 
-	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
+	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 
 	static void TextInit();
 
@@ -63,11 +58,8 @@ namespace Pause
 		return static_cast<float>((screenHeight / SCREEN_ROWS) * buttonRow);
 	}
 
-	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
+	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
-		Color defaultColor = RED;
-		Color selectColor = MAROON;
-
 		Text::Text text;
 		Vector2 textPos;
 
@@ -79,32 +71,29 @@ namespace Pause
 		//RESUME
 		hitbox.y = GetButtonPosY(screenHeight, RESUME_BUTTON_ROW);
 
-		textPos.x = hitbox.x + RESUME_TEXT_OFFSET_X;
-		textPos.y = hitbox.y + BUTTONS_TEXT_OFFSET_Y;
+		textPos = Button::GetCenteredTextPos(hitbox, pauseFont, "Resume", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(text, pauseFont, FONT_SIZE_BUTTON, "Resume", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(resume, defaultColor, selectColor, hitbox, text, sfx.hoverButton[RESUME_HOVER_SOUND], sfx.pressButton);
+		Button::Init(resume, buttonTextures, hitbox, text, sfx.hoverButton[RESUME_HOVER_SOUND], sfx.pressButton);
 
 		//TUTORIAL
 		hitbox.y = GetButtonPosY(screenHeight, TUTORIAL_BUTTON_ROW);
 
-		textPos.x = hitbox.x + TUTORIAL_TEXT_OFFSET_X;
-		textPos.y = hitbox.y + BUTTONS_TEXT_OFFSET_Y;
+		textPos = Button::GetCenteredTextPos(hitbox, pauseFont, "Tutorial", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(text, pauseFont, FONT_SIZE_BUTTON, "Tutorial", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(tutorial, defaultColor, selectColor, hitbox, text, sfx.hoverButton[TUTORIAL_HOVER_SOUND], sfx.pressButton);
+		Button::Init(tutorial, buttonTextures, hitbox, text, sfx.hoverButton[TUTORIAL_HOVER_SOUND], sfx.pressButton);
 
 		//MENU
 		hitbox.y = GetButtonPosY(screenHeight, MENU_BUTTON_ROW);
 
-		textPos.x = hitbox.x + MENU_TEXT_OFFSET_X;
-		textPos.y = hitbox.y + BUTTONS_TEXT_OFFSET_Y;
+		textPos = Button::GetCenteredTextPos(hitbox, pauseFont, "Menu", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(text, pauseFont, FONT_SIZE_BUTTON, "Menu", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(returnMenu, defaultColor, selectColor, hitbox, text, sfx.hoverButton[MENU_HOVER_SOUND], sfx.pressButton);
+		Button::Init(returnMenu, buttonTextures, hitbox, text, sfx.hoverButton[MENU_HOVER_SOUND], sfx.pressButton);
 	}
 
 	static void TextInit()
@@ -130,14 +119,14 @@ namespace Pause
 		return false;
 	}
 
-	void Init(Font font, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
+	void Init(Font font, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		pauseFont = font;
 		width = screenWidth;
 		height = screenHeight;
 
 		TextInit();
-		ButtonsInit(sfx, screenWidth, screenHeight);
+		ButtonsInit(buttonTextures, sfx, screenWidth, screenHeight);
 	}
 
 	void Update(bool& resumeButtonPressed, bool& tutorialButtonPressed, bool& menuButtonPressed)

@@ -75,6 +75,9 @@
     <ClCompile Include="src\Utils\GameSounds.cpp">
       <Filter>Archivos de origen\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\Screens\ScreenPause.cpp">
+      <Filter>Archivos de origen\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Screens\ScreenManager.h">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="src\Utils\GameSounds.h">
       <Filter>Archivos de encabezado\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\ScreenPause.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

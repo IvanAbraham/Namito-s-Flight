@@ -3,12 +3,17 @@
 #include <raylib.h>
 
 #include "Utils/Text.h"
-// #include "Utils/Sprite.h"
 
 namespace Button
 {
-	const float BUTTON_WIDTH = 250.0f;
-	const float BUTTON_HEIGHT = 80.0f;
+	const float BUTTON_WIDTH = 200.0f;
+	const float BUTTON_HEIGHT = 64.0f;
+
+	struct ButtonTextures
+	{
+		Texture2D normal;
+		Texture2D hover;
+	};
 
 	struct Button
 	{
@@ -18,11 +23,11 @@ namespace Button
 
 		bool soundIsPlaying;
 
-		Color currentColor;
+		Texture2D currentTexture;
 
-		Color defaultColor;
+		Texture2D defaultTexture;
 
-		Color selectColor;
+		Texture2D selectTexture;
 
 		Text::Text text;
 
@@ -31,16 +36,14 @@ namespace Button
 		Sound hoverSound;
 
 		Sound pressSound;
-
-		// Sprite::Sprite currentSprite;
-		// Sprite::Sprite defaultSprite;
-		// Sprite::Sprite selectSprite;
 	};
 
-	void Init(Button& currentButton, Color buttonColor, Color selectColor, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound /*, Sprite::Sprite defaultSprite, Sprite::Sprite selectSprite*/ );
+	void Init(Button& currentButton, const ButtonTextures& textures, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound);
 
 	void Update(Button& currentButton, Vector2 mousePosition);
 
 	void Draw(Button currentButton);
+
+	Vector2 GetCenteredTextPos(Rectangle hitbox, Font font, const char* text, float fontSize, float spacing);
 
 }

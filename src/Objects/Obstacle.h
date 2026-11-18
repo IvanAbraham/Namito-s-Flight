@@ -20,6 +20,8 @@ namespace Obtacle
 		Rectangle rectangleDown;
 
 		bool isOffScreen;
+
+		Texture2D texture;
 	};
 
 

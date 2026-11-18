@@ -34,6 +34,12 @@ namespace ScreenManager
 
 	static Game::GameTextures textures;
 
+	static Texture2D menuBackground;
+	static Texture2D tutorialBackground;
+	static Texture2D creditsBackground;
+
+	static Button::ButtonTextures buttonTextures;
+
 	static Sounds::Sfx sfx;
 
 	static bool twoPlayersMode;
@@ -55,7 +61,7 @@ namespace ScreenManager
 
 		const Vector2 position = { 10, 0 };
 
-		Text::Init(version, font, fontSize, "v 0.4", position, 0, BLACK);
+		Text::Init(version, font, fontSize, "v 0.5", position, 0, BLACK);
 	}
 
 	static void Init()
@@ -71,7 +77,7 @@ namespace ScreenManager
 		isRunning = true;
 
 		//Carga centralizada de recursos
-		font = LoadFontEx("res/font/accid___.ttf", MAX_FONT_SIZE, NULL, 0);
+		font = LoadFontEx("res/Font/accid___.ttf", MAX_FONT_SIZE, NULL, 0);
 
 		textures.parallaxBackground[0] = LoadTexture("res/Background/Parallax/layer01.png");
 		textures.parallaxBackground[1] = LoadTexture("res/Background/Parallax/layer02.png");
@@ -80,20 +86,28 @@ namespace ScreenManager
 		textures.parallaxBackground[4] = LoadTexture("res/Background/Parallax/layer05.png");
 		textures.player1 = LoadTexture("res/Players/p1_sheets.png");
 		textures.player2 = LoadTexture("res/Players/p2_sheets.png");
+		textures.obstacle = LoadTexture("res/Obstacle/Obtacle.png");
+
+		menuBackground = LoadTexture("res/Background/Menus/MainMenu.png");
+		tutorialBackground = LoadTexture("res/Background/Menus/Tutorial.png");
+		creditsBackground = LoadTexture("res/Background/Menus/Credits.png");
+
+		buttonTextures.normal = LoadTexture("res/Buttons/Button.png");
+		buttonTextures.hover = LoadTexture("res/Buttons/HoverButton.png");
 
 		TextInit();
 
 		Sounds::Load(sfx);
 
-		Menu::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Menu::Init(font, menuBackground, buttonTextures, sfx, SCREEN_HEIGHT);
 		
-		Pause::Init(font, sfx,SCREEN_WIDTH,SCREEN_HEIGHT);
+		Pause::Init(font, buttonTextures, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		GameOver::Init(font, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		Tutorial::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Tutorial::Init(font, tutorialBackground, buttonTextures, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		Credits::Init(font, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
+		Credits::Init(font, creditsBackground, buttonTextures, sfx, SCREEN_WIDTH);
 	}
 
 	static void Update(float deltaTime)
@@ -267,6 +281,14 @@ namespace ScreenManager
 		}
 		UnloadTexture(textures.player1);
 		UnloadTexture(textures.player2);
+		UnloadTexture(textures.obstacle);
+
+		UnloadTexture(menuBackground);
+		UnloadTexture(tutorialBackground);
+		UnloadTexture(creditsBackground);
+
+		UnloadTexture(buttonTextures.normal);
+		UnloadTexture(buttonTextures.hover);
 
 		Sounds::Unload(sfx);
 	}

@@ -3,11 +3,10 @@
 #include <raylib.h>
 
 #include "Utils/Text.h"
-// #include "Utils/Sprite.h"
 
 namespace Button
 {
-	void Init(Button& currentButton, Color buttonColor, Color selectColor, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound /*, Sprite::Sprite defaultSprite, Sprite::Sprite selectSprite*/)
+	void Init(Button& currentButton, const ButtonTextures& textures, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound)
 	{
 		currentButton.isPressed = false;
 		currentButton.wasPressed = false;
@@ -15,9 +14,9 @@ namespace Button
 
 		currentButton.soundIsPlaying = false;
 
-		currentButton.currentColor = buttonColor;
-		currentButton.defaultColor = buttonColor;
-		currentButton.selectColor = selectColor;
+		currentButton.currentTexture = textures.normal;
+		currentButton.defaultTexture = textures.normal;
+		currentButton.selectTexture = textures.hover;
 
 		currentButton.hitbox = hitbox;
 
@@ -25,10 +24,6 @@ namespace Button
 
 		currentButton.hoverSound = hoverSound;
 		currentButton.pressSound = pressSound;
-
-		// currentButton.defaultSprite = defaultSprite;
-		// currentButton.currentSprite = defaultSprite;
-		// currentButton.selectSprite = selectSprite;
 	}
 
 	void Update(Button& currentButton, Vector2 mousePosition)
@@ -43,7 +38,7 @@ namespace Button
 		if ((mousePosition.x >= minX && mousePosition.x <= maxX) && (mousePosition.y >= minY && mousePosition.y <= maxY))
 		{
 			currentButton.isMouseOnButton = true;
-			currentButton.currentColor = currentButton.selectColor;
+			currentButton.currentTexture = currentButton.selectTexture;
 
 			//El sonido de hover suena una sola vez al entrar el mouse
 			if (!currentButton.soundIsPlaying)
@@ -51,7 +46,6 @@ namespace Button
 				PlaySound(currentButton.hoverSound);
 				currentButton.soundIsPlaying = true;
 			}
-			// currentButton.currentSprite = currentButton.selectSprite;
 		}
 		else
 		{
@@ -59,9 +53,7 @@ namespace Button
 
 			currentButton.soundIsPlaying = false;
 
-			currentButton.currentColor = currentButton.defaultColor;
-			// currentButton.currentSprite = currentButton.defaultSprite;
-
+			currentButton.currentTexture = currentButton.defaultTexture;
 		}
 
 		if (currentButton.isMouseOnButton && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
@@ -82,13 +74,19 @@ namespace Button
 
 	void Draw(Button currentButton)
 	{
-		//Hitbox
-#ifdef _DEBUG
-#endif
-		DrawRectangleRec(currentButton.hitbox, currentButton.currentColor);
-		//Boton
-		// Sprite::Draw(currentButton.currentSprite);
+		//El sprite se escala para ocupar toda la hitbox
+		Rectangle source = { 0.0f, 0.0f, static_cast<float>(currentButton.currentTexture.width), static_cast<float>(currentButton.currentTexture.height) };
+
+		DrawTexturePro(currentButton.currentTexture, source, currentButton.hitbox, { 0.0f, 0.0f }, 0.0f, WHITE);
+
 		Text::Draw(currentButton.text);
+	}
+
+	Vector2 GetCenteredTextPos(Rectangle hitbox, Font font, const char* text, float fontSize, float spacing)
+	{
+		Vector2 textSize = MeasureTextEx(font, text, fontSize, spacing);
+
+		return { hitbox.x + (hitbox.width - textSize.x) / 2.0f, hitbox.y + (hitbox.height - textSize.y) / 2.0f };
 	}
 
 }

@@ -9,65 +9,33 @@
 namespace Credits
 {
 	//Constantes
-	const float FONT_SIZE_TITLE = 40.0f;
-	const float TITLE_FONT_SPACING = 10.0f;
-
-	const float FONT_SIZE_ASSETS = 30.0f;
-	const float ASSETS_FONT_SPACING = 5.0f;
-
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;
 
-	const float BACK_TEXT_OFFSET_X = 20.0f;
-	const float BUTTONS_TEXT_OFFSET_Y = 5.0f;
-
-	const Vector2 CREDITS_POS = { 100.0f, 100.0f };
-	const Vector2 ADDITIONAL_CREDITS_POS = { 100.0f, 160.0f };
-
-	const Vector2 ASSETS_TITLE_POS = { 100.0f, 240.0f };
-	const Vector2 BACKGROUND_CREDITS_POS = { 100.0f, 300.0f };
-	const Vector2 FONT_CREDITS_POS = { 100.0f, 350.0f };
-	const Vector2 SPRITES_CREDITS_POS = { 100.0f, 400.0f };
-	const Vector2 SFX_CREDITS_POS = { 100.0f, 450.0f };
-
-	//La pantalla se divide en filas; el boton Back va en la fila 9 (debajo de los creditos)
-	const int SCREEN_ROWS = 12;
-	const int BACK_BUTTON_ROW = 9;
+	//Distancia del boton Back a los bordes superior y derecho de la pantalla
+	const float BACK_BUTTON_MARGIN = 40.0f;
 
 	const int BACK_HOVER_SOUND = 6;
 
 	//Recursos
-	static Text::Text credits;
-	static Text::Text additionalCredits;
-
-	static Text::Text assetsTitle;
-	static Text::Text backgroundCredits;
-	static Text::Text fontCredits;
-	static Text::Text spritesCredits;
-	static Text::Text sfxCredits;
-
 	static Button::Button back;
 
 	static Font menuFont;
 
-
-	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
-
-	static void TextInit();
+	static Texture2D creditsBackground;
 
 
-	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
+	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth);
+
+
+	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth)
 	{
 		//Init a cada boton
 		Vector2 buttonPos;
-		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
-		buttonPos.y = static_cast<float>((screenHeight / SCREEN_ROWS) * BACK_BUTTON_ROW);
+		buttonPos.x = static_cast<float>(screenWidth) - Button::BUTTON_WIDTH - BACK_BUTTON_MARGIN;
+		buttonPos.y = BACK_BUTTON_MARGIN;
 
 		Vector2 textPos;
-
-		Color currentColor = RED;
-		Color defaultColor = RED;
-		Color selectColor = MAROON;
 
 		Text::Text text;
 
@@ -78,31 +46,18 @@ namespace Credits
 		hitbox.height = Button::BUTTON_HEIGHT;
 
 		//Text backButton
-		textPos.x = hitbox.x + BACK_TEXT_OFFSET_X;
-		textPos.y = hitbox.y + BUTTONS_TEXT_OFFSET_Y;
+		textPos = Button::GetCenteredTextPos(hitbox, menuFont, "Back", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Back", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(back, defaultColor, selectColor, hitbox, text, sfx.hoverButton[BACK_HOVER_SOUND], sfx.pressButton);
+		Button::Init(back, buttonTextures, hitbox, text, sfx.hoverButton[BACK_HOVER_SOUND], sfx.pressButton);
 	}
 
-	static void TextInit()
-	{
-		Text::Init(credits, menuFont, FONT_SIZE_TITLE, "Game Development by: Suarez Nahuel", CREDITS_POS, TITLE_FONT_SPACING, BLACK);
-		Text::Init(additionalCredits, menuFont, FONT_SIZE_TITLE, "Additional Development by: Ivan Abraham", ADDITIONAL_CREDITS_POS, TITLE_FONT_SPACING, BLACK);
-
-		Text::Init(assetsTitle, menuFont, FONT_SIZE_TITLE, "Assets", ASSETS_TITLE_POS, TITLE_FONT_SPACING, BLACK);
-		Text::Init(backgroundCredits, menuFont, FONT_SIZE_ASSETS, "Background: \"Parallax Mountain Background\" by Ravenheartcawww", BACKGROUND_CREDITS_POS, ASSETS_FONT_SPACING, BLACK);
-		Text::Init(fontCredits, menuFont, FONT_SIZE_ASSETS, "Font: \"Accidental Presidency\" by Tepid Monkey", FONT_CREDITS_POS, ASSETS_FONT_SPACING, BLACK);
-		Text::Init(spritesCredits, menuFont, FONT_SIZE_ASSETS, "Player sprites by Ivan Abraham", SPRITES_CREDITS_POS, ASSETS_FONT_SPACING, BLACK);
-		Text::Init(sfxCredits, menuFont, FONT_SIZE_ASSETS, "Sound effects by Ivan Abraham (made with Bfxr)", SFX_CREDITS_POS, ASSETS_FONT_SPACING, BLACK);
-	}
-
-	void Init(Font font, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
+	void Init(Font font, Texture2D background, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth)
 	{
 		menuFont = font;
-		TextInit();
-		ButtonsInit(sfx, screenWidth, screenHeight);
+		creditsBackground = background;
+		ButtonsInit(buttonTextures, sfx, screenWidth);
 	}
 
 	void Update(bool& backButtonPressed)
@@ -126,13 +81,8 @@ namespace Credits
 
 	void Draw()
 	{
-		Text::Draw(credits);
-		Text::Draw(additionalCredits);
-		Text::Draw(assetsTitle);
-		Text::Draw(backgroundCredits);
-		Text::Draw(fontCredits);
-		Text::Draw(spritesCredits);
-		Text::Draw(sfxCredits);
+		DrawTexture(creditsBackground, 0, 0, WHITE);
+
 		Button::Draw(back);
 	}
 

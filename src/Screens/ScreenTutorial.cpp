@@ -9,45 +9,23 @@
 namespace Tutorial
 {
 	//Constantes
-	const float FONT_SIZE_TITLE = 40.0f;
-	const float TITLE_FONT_SPACING = 10.0f;
-
-	const float FONT_SIZE_CONTROLS = 30.0f;
-	const float CONTROLS_FONT_SPACING = 5.0f;
-
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;
-
-	const float BACK_TEXT_OFFSET_X = 20.0f;
-	const float BUTTONS_TEXT_OFFSET_Y = 5.0f;
-
-	const Vector2 TITLE_POS = { 100.0f, 100.0f };
-	const Vector2 PLAYER_1_CONTROLS_POS = { 100.0f, 200.0f };
-	const Vector2 PLAYER_2_CONTROLS_POS = { 100.0f, 260.0f };
-	const Vector2 MODE_INFO_POS = { 100.0f, 340.0f };
-
-	const Color PLAYER_1_COLOR = ORANGE;
-	const Color PLAYER_2_COLOR = PURPLE;
 
 	const int BACK_HOVER_SOUND = 5;
 
 	//Recursos
-	static Text::Text title;
-	static Text::Text player1Controls;
-	static Text::Text player2Controls;
-	static Text::Text modeInfo;
-
 	static Button::Button back;
 
 	static Font menuFont;
 
-
-	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
-
-	static void TextInit();
+	static Texture2D tutorialBackground;
 
 
-	static void ButtonsInit(const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
+	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
+
+
+	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		//Init a cada boton
 		Vector2 buttonPos;
@@ -55,9 +33,6 @@ namespace Tutorial
 		buttonPos.y = static_cast<float>((screenHeight / 12) * 9);
 
 		Vector2 textPos;
-
-		Color defaultColor = RED;
-		Color selectColor = MAROON;
 
 		Text::Text text;
 
@@ -68,29 +43,18 @@ namespace Tutorial
 		hitbox.height = Button::BUTTON_HEIGHT;
 
 		//Text backButton
-		textPos.x = hitbox.x + BACK_TEXT_OFFSET_X;
-		textPos.y = hitbox.y + BUTTONS_TEXT_OFFSET_Y;
+		textPos = Button::GetCenteredTextPos(hitbox, menuFont, "Back", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Back", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(back, defaultColor, selectColor, hitbox, text, sfx.hoverButton[BACK_HOVER_SOUND], sfx.pressButton);
+		Button::Init(back, buttonTextures, hitbox, text, sfx.hoverButton[BACK_HOVER_SOUND], sfx.pressButton);
 	}
 
-	static void TextInit()
-	{
-		Text::Init(title, menuFont, FONT_SIZE_TITLE, "Controls", TITLE_POS, TITLE_FONT_SPACING, BLACK);
-
-		Text::Init(player1Controls, menuFont, FONT_SIZE_CONTROLS, "Player 1: UP ARROW to jump", PLAYER_1_CONTROLS_POS, CONTROLS_FONT_SPACING, PLAYER_1_COLOR);
-		Text::Init(player2Controls, menuFont, FONT_SIZE_CONTROLS, "Player 2: W to jump", PLAYER_2_CONTROLS_POS, CONTROLS_FONT_SPACING, PLAYER_2_COLOR);
-
-		Text::Init(modeInfo, menuFont, FONT_SIZE_CONTROLS, "In 1 player mode you play as Player 1", MODE_INFO_POS, CONTROLS_FONT_SPACING, BLACK);
-	}
-
-	void Init(Font font, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
+	void Init(Font font, Texture2D background, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight)
 	{
 		menuFont = font;
-		TextInit();
-		ButtonsInit(sfx, screenWidth, screenHeight);
+		tutorialBackground = background;
+		ButtonsInit(buttonTextures, sfx, screenWidth, screenHeight);
 	}
 
 	void Update(bool& backButtonPressed)
@@ -114,10 +78,8 @@ namespace Tutorial
 
 	void Draw()
 	{
-		Text::Draw(title);
-		Text::Draw(player1Controls);
-		Text::Draw(player2Controls);
-		Text::Draw(modeInfo);
+		DrawTexture(tutorialBackground, 0, 0, WHITE);
+
 		Button::Draw(back);
 	}
 

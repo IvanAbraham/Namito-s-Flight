@@ -85,6 +85,8 @@ namespace Game
 			Player::Init(player2, screenWidth, screenHeight, Player::PlayerNumber::Two);
 		}
 
+		obstacle.texture = textures.obstacle;
+
 		Obtacle::Init(obstacle, screenWidth, screenHeight);
 
 		gravity = INITIAL_GRAVITY;

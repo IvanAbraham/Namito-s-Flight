@@ -13,6 +13,7 @@ namespace Game
 		Texture2D player1;
 		Texture2D player2;
 		Texture2D parallaxBackground[Parallax::MAX_LAYERS];
+		Texture2D obstacle;
 	};
 
 	void Init(Font font, int screenWidth, int screenHeight, GameTextures& textures, const Sounds::Sfx& sfx, bool twoP);

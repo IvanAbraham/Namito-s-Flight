@@ -28,6 +28,8 @@ namespace Obtacle
 
 	static void SetRandomHeight(Obstacle& obstacle);
 
+	static void DrawPipe(Texture2D texture, Rectangle hitbox, bool isFlipped);
+
 
 	static void setPos(Obstacle& obstacle, float x, float y)
 	{
@@ -57,6 +59,20 @@ namespace Obtacle
 		obstacle.rectangleUp.height = randomHeigth - obstacle.offset;
 
 		setPos(obstacle, obstacle.position.x, randomHeigth);
+	}
+
+	static void DrawPipe(Texture2D texture, Rectangle hitbox, bool isFlipped)
+	{
+		//El sprite completo se estira para ocupar toda la hitbox
+		Rectangle source = { 0.0f, 0.0f, static_cast<float>(texture.width), static_cast<float>(texture.height) };
+
+		//Alto negativo en el source = textura espejada verticalmente
+		if (isFlipped)
+		{
+			source.height *= -1;
+		}
+
+		DrawTexturePro(texture, source, hitbox, { 0.0f, 0.0f }, 0.0f, WHITE);
 	}
 
 	void Init(Obstacle& obstacle, int width, int height)
@@ -107,7 +123,7 @@ namespace Obtacle
 
 	void Draw(Obstacle& obstacle)
 	{
-		DrawRectangleRec(obstacle.rectangleUp, RED);
-		DrawRectangleRec(obstacle.rectangleDown, RED);
+		DrawPipe(obstacle.texture, obstacle.rectangleUp, true);
+		DrawPipe(obstacle.texture, obstacle.rectangleDown, false);
 	}
 }
