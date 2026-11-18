@@ -28,7 +28,7 @@ namespace Game
 	const Vector2 P1_SCORE_POS = { 20.0f, 10.0f };
 	const Vector2 P2_SCORE_POS = { 20.0f, 60.0f };
 
-	const Vector2 STANDBY_COUNTDOWN_POS = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
+	const Vector2 STANDBY_COUNTDOWN_POS = { 300.0f, 300.0f};
 
 	const Color PLAYER_1_COLOR = ORANGE;
 	const Color PLAYER_2_COLOR = PURPLE;
@@ -220,7 +220,7 @@ namespace Game
 		if (standby)
 		{
 			DrawRectangle(0, 0, width, height, Fade(BLACK, OVERLAY_ALPHA));
-			DrawTextEx(gameFont, TextFormat("STARTS IN: %i", static_cast<int>(standbyTimer)), STANDBY_COUNTDOWN_POS, STANDBY_COUNTDOWN_SIZE, STANDBY_COUNTDOWN_SPACING, STANDBY_COUNTDOWN_COLOR);
+			DrawTextEx(gameFont, TextFormat("STARTS IN: %i", static_cast<int>(standbyTimer + 1.0f)), STANDBY_COUNTDOWN_POS, STANDBY_COUNTDOWN_SIZE, STANDBY_COUNTDOWN_SPACING, STANDBY_COUNTDOWN_COLOR);
 		}
 
 	}
