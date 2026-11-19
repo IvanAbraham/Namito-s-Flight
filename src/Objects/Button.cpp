@@ -4,7 +4,7 @@
 
 #include "Utils/Text.h"
 
-namespace Button
+namespace NamitosFlight::Button
 {
 	void Init(Button& currentButton, const ButtonTextures& textures, Rectangle hitbox, Text::Text text, Sound hoverSound, Sound pressSound)
 	{

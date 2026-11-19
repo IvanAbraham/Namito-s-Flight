@@ -2,6 +2,6 @@
 
 int main()
 {
-    ScreenManager::Run();
+    NamitosFlight::ScreenManager::Run();
     return 0;
 }  

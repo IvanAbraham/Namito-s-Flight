@@ -5,7 +5,7 @@
 #include "Utils/GameSounds.h"
 #include "Objects/Button.h"
 
-namespace Menu
+namespace NamitosFlight::Menu
 {
 
 	void Init(Font font, Texture2D background, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenHeight);

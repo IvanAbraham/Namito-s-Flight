@@ -5,7 +5,7 @@
 #include <raylib.h>
 
 
-namespace Text
+namespace NamitosFlight::Text
 {
 	void Init(Text& currentText, Font font, float fontSize, std::string text, Vector2 position, float spacing, Color tint)
 	{

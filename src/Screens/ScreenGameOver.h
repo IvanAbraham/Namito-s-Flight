@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace GameOver
+namespace NamitosFlight::GameOver
 {
 
 	void Init(Font font, int screenWidth, int screenHeight);

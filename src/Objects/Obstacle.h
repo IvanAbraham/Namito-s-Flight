@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Obtacle
+namespace NamitosFlight::Obtacle
 {
 	
 

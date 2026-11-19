@@ -6,8 +6,9 @@
 #include "Objects/Button.h"
 #include "Utils/GameSounds.h"
 
-namespace Tutorial
+namespace NamitosFlight::Tutorial
 {
+
 	//Constantes
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;

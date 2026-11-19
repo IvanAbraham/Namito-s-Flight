@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Player
+namespace NamitosFlight::Player
 {
 	static const float PLAYER_WIDTH = 60.0f;
 	static const float PLAYER_HEIGHT = 60.0f;

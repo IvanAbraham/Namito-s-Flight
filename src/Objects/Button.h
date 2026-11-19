@@ -4,7 +4,7 @@
 
 #include "Utils/Text.h"
 
-namespace Button
+namespace NamitosFlight::Button
 {
 	const float BUTTON_WIDTH = 200.0f;
 	const float BUTTON_HEIGHT = 64.0f;

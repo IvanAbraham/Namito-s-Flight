@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Sounds
+namespace NamitosFlight::Sounds
 {
 	const int MAX_HOVER_BUTTONS = 8;
 

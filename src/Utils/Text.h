@@ -5,7 +5,7 @@
 #include <raylib.h>
 
 
-namespace Text
+namespace NamitosFlight::Text
 {
 	struct Text
 	{

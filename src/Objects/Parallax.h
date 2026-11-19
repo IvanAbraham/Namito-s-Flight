@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Parallax
+namespace NamitosFlight::Parallax
 {
 	const int MAX_LAYERS = 5;
 

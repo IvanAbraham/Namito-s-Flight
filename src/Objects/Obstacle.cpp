@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Obtacle
+namespace NamitosFlight::Obtacle
 {
 	//Constantes
 	static const float OFFSET_VALUE = 240.0f;

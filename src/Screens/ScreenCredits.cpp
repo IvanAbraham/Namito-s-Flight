@@ -6,7 +6,7 @@
 #include "Objects/Button.h"
 #include "Utils/GameSounds.h"
 
-namespace Credits
+namespace NamitosFlight::Credits
 {
 	//Constantes
 	const float FONT_SIZE_BUTTON = 40.0f;

@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Parallax
+namespace NamitosFlight::Parallax
 {
 
 	void Init(Layer parallax[MAX_LAYERS], Texture2D layers[MAX_LAYERS])

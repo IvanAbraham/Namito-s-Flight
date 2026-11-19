@@ -1,6 +1,6 @@
 #include "GameSounds.h"
 
-namespace Sounds
+namespace NamitosFlight::Sounds
 {
     static const int FIRST_HOVER_FILE_NUMBER = 1;
 

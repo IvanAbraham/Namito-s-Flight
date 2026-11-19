@@ -5,7 +5,7 @@
 #include "Utils/GameSounds.h"
 #include "Objects/Button.h"
 
-namespace Settings
+namespace NamitosFlight::Settings
 {
 #if !defined(PLATFORM_WEB)
 

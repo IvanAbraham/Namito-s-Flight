@@ -6,7 +6,7 @@
 #include "Objects/Button.h"
 #include "Utils/GameSounds.h"
 
-namespace Settings
+namespace NamitosFlight::Settings
 {
 	//Constantes
 	const float OVERLAY_ALPHA = 0.6f;

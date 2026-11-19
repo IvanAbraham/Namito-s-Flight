@@ -15,7 +15,7 @@
 #include "ScreenPause.h"
 #include "ScreenSettings.h"
 
-namespace ScreenManager
+namespace NamitosFlight::ScreenManager
 {
 	//Constantes
 	static const int SCREEN_WIDTH = 1280;

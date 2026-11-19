@@ -5,7 +5,7 @@
 #include "Objects/Parallax.h"
 #include "Utils/GameSounds.h"
 
-namespace Game
+namespace NamitosFlight::Game
 {
 
 	struct GameTextures

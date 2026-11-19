@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ScreenManager
+namespace NamitosFlight::ScreenManager
 {
 	enum class Screens
 	{

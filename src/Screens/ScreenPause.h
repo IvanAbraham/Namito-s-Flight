@@ -5,7 +5,7 @@
 #include "Utils/GameSounds.h"
 #include "Objects/Button.h"
 
-namespace Pause
+namespace NamitosFlight::Pause
 {
 	const KeyboardKey PAUSE_KEY = KEY_ESCAPE;
 	const KeyboardKey ALT_PAUSE = KEY_P;

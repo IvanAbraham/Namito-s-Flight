@@ -4,7 +4,7 @@
 
 #include "Utils/Text.h"
 
-namespace GameOver
+namespace NamitosFlight::GameOver
 {
 	//Constantes
 	const KeyboardKey MENU_KEY = KEY_ENTER;

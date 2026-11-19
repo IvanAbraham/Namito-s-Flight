@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-namespace Player
+namespace NamitosFlight::Player
 {
 
 	enum class PlayerNumber { One = 1, Two };

@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Obstacle.h"
 
-namespace ColisionManager
+namespace NamitosFlight::ColisionManager
 {
 	static bool CollisionAABB(Rectangle rectA, Rectangle rectB);
 

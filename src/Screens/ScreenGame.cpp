@@ -6,7 +6,7 @@
 #include "Objects/Parallax.h"
 #include "Utils/GameSounds.h"
 
-namespace Game
+namespace NamitosFlight::Game
 {
 	//Constantes
 	const float INITIAL_GRAVITY = 800.0f;
