@@ -12,6 +12,23 @@
           <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
           <script>
                   var Module = { canvas: document.getElementById("canvas") };
+
+                  //Evita que las teclas del juego muevan la pagina que contiene al juego (por ejemplo, itch.io)
+                  var GAME_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space", "PageUp", "PageDown", "Home", "End"];
+
+                  window.addEventListener("keydown", function (event)
+                  {
+                          if (GAME_KEYS.includes(event.code))
+                          {
+                                  event.preventDefault();
+                          }
+                  }, { passive: false });
+
+                  //El canvas toma el foco al hacer click, para recibir el teclado
+                  Module.canvas.addEventListener("mousedown", function ()
+                  {
+                          Module.canvas.focus();
+                  });
           </script>
           {{{ SCRIPT }}}
   </body>
