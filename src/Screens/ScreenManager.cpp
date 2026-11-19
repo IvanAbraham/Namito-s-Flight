@@ -66,7 +66,7 @@ namespace NamitosFlight::ScreenManager
 
 		const Vector2 position = { 10, 0 };
 
-		Text::Init(version, font, fontSize, "v 0.8", position, 0, BLACK);
+		Text::Init(version, font, fontSize, "v 1.0", position, 0, BLACK);
 	}
 
 	static void Init()
