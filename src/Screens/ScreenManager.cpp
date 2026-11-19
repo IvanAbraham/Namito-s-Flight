@@ -58,6 +58,7 @@ namespace ScreenManager
 
 	static void Delete();
 
+	static Rectangle GetLetterboxRect();
 
 	static void TextInit()
 	{
@@ -323,11 +324,32 @@ namespace ScreenManager
 		ClearBackground(BLACK);
 
 		Rectangle source = { 0.0f, 0.0f, static_cast<float>(target.texture.width), -static_cast<float>(target.texture.height) };
-		Rectangle dest = { 0.0f, 0.0f, static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT) };
+		Rectangle dest = GetLetterboxRect();
 
 		DrawTexturePro(target.texture, source, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
 
 		EndDrawing();
+	}
+
+
+	static Rectangle GetLetterboxRect()
+	{
+		float windowWidth = static_cast<float>(GetScreenWidth());
+		float windowHeight = static_cast<float>(GetScreenHeight());
+
+		// Se elije la escala menor para que el lienzo no se deforme
+		float scaleX = windowWidth / SCREEN_WIDTH;
+		float scaleY = windowHeight / SCREEN_HEIGHT;
+		float scale = (scaleX < scaleY) ? scaleX : scaleY;
+
+		Rectangle rect;
+		rect.width = SCREEN_WIDTH * scale;
+		rect.height = SCREEN_HEIGHT * scale;
+
+		rect.x = (windowWidth - rect.width) / 2.0f;
+		rect.y = (windowHeight - rect.height) / 2.0f;
+
+		return rect;
 	}
 
 
