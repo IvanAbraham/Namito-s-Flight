@@ -12,6 +12,8 @@ namespace NamitosFlight::Player
 	static const int JUMP_FIRS_TFRAME = 1;
 	static const float ANIMATION_DELAY = 0.05f;
 
+	static const int PLAYER_ONE_SCREEN_DIVISION = 4;
+	static const int PLAYER_TWO_SCREEN_DIVISION = 6;
 
 	static const float INITIAL_SPEED = 200.f;
 
@@ -26,11 +28,11 @@ namespace NamitosFlight::Player
 		
 		if (pNum == PlayerNumber::One)
 		{
-			player.position.x = static_cast<float>(screenWidth / 4);
+			player.position.x = static_cast<float>(screenWidth / PLAYER_ONE_SCREEN_DIVISION);
 		}
 		else
 		{
-			player.position.x = static_cast<float>(screenWidth / 6);
+			player.position.x = static_cast<float>(screenWidth / PLAYER_TWO_SCREEN_DIVISION);
 		}
 
 		player.position.y = static_cast<float>(screenHeight / 2);

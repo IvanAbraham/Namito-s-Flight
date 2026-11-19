@@ -13,7 +13,10 @@ namespace NamitosFlight::Tutorial
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;
 
+	const int BACK_BUTTON_ROW = 9;
 	const int BACK_HOVER_SOUND = 5;
+
+	const int SCREEN_ROWS = 12;
 
 	//Recursos
 	static Button::Button back;
@@ -31,7 +34,7 @@ namespace NamitosFlight::Tutorial
 		//Init a cada boton
 		Vector2 buttonPos;
 		buttonPos.x = static_cast<float>((screenWidth / 2) - (Button::BUTTON_WIDTH / 2));
-		buttonPos.y = static_cast<float>((screenHeight / 12) * 9);
+		buttonPos.y = static_cast<float>((screenHeight / SCREEN_ROWS) * BACK_BUTTON_ROW);
 
 		Vector2 textPos;
 
