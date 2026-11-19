@@ -39,6 +39,8 @@ namespace ScreenManager
 	static Texture2D tutorialBackground;
 	static Texture2D creditsBackground;
 
+	static RenderTexture2D target;
+
 	static Button::ButtonTextures buttonTextures;
 
 	static Sounds::Sfx sfx;
@@ -68,7 +70,11 @@ namespace ScreenManager
 
 	static void Init()
 	{
+		SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 		InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Namito's Flight");
+
+		target = LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 		SetExitKey(KEY_NULL);
 		InitAudioDevice();
 
@@ -272,7 +278,7 @@ namespace ScreenManager
 
 	static void Draw()
 	{
-		BeginDrawing();
+		BeginTextureMode(target);
 		ClearBackground(WHITE);
 
 		switch (currentScreen)
@@ -311,8 +317,19 @@ namespace ScreenManager
 			break;
 		}
 
+		EndTextureMode();
+
+		BeginDrawing();
+		ClearBackground(BLACK);
+
+		Rectangle source = { 0.0f, 0.0f, static_cast<float>(target.texture.width), -static_cast<float>(target.texture.height) };
+		Rectangle dest = { 0.0f, 0.0f, static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT) };
+
+		DrawTexturePro(target.texture, source, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
+
 		EndDrawing();
 	}
+
 
 	static void Delete()
 	{
@@ -332,6 +349,8 @@ namespace ScreenManager
 
 		UnloadTexture(buttonTextures.normal);
 		UnloadTexture(buttonTextures.hover);
+
+		UnloadRenderTexture(target);
 
 		Sounds::Unload(sfx, music);
 	}
