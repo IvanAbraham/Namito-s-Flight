@@ -7,9 +7,13 @@
 
 namespace Settings
 {
-	const KeyboardKey MUTE_KEY = KEY_M;
+#if !defined(PLATFORM_WEB)
 
 	const KeyboardKey FULLSCREEN_KEY = KEY_F11;
+
+#endif
+
+	const KeyboardKey MUTE_KEY = KEY_M;
 
 	void Init(Font font, Texture2D background, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 

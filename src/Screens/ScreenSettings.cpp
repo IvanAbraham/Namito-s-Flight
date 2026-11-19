@@ -224,12 +224,14 @@ namespace Settings
 			ApplySfxState(sfx, !isSfxMuted);
 		}
 
+#if !defined(PLATFORM_WEB)
+
 		Button::Update(fullscreenButton, mousePos);
 		if (WasButtonClicked(fullscreenButton))
 		{
 			ToggleScreenMode();
 		}
-
+#endif
 		Button::Update(back, mousePos);
 		backButtonPressed = WasButtonClicked(back);
 	}
@@ -248,7 +250,9 @@ namespace Settings
 
 		Button::Draw(musicButton);
 		Button::Draw(sfxButton);
+#if !defined(PLATFORM_WEB)
 		Button::Draw(fullscreenButton);
+#endif
 		Button::Draw(back);
 	}
 
