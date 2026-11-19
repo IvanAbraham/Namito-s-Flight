@@ -18,15 +18,21 @@ namespace Settings
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;
 
+	//Separacion horizontal entre las dos columnas de botones
+	const float COLUMN_GAP = 40.0f;
+
 	//La pantalla se divide en filas; cada boton arranca en su fila (dejando una libre entre botones)
+	//Columna izquierda: audio. Columna derecha: video
 	const int SCREEN_ROWS = 12;
-	const int MUSIC_BUTTON_ROW = 4;
-	const int SFX_BUTTON_ROW = 6;
+	const int FIRST_ROW = 4;
+	const int SECOND_ROW = 6;
 	const int BACK_BUTTON_ROW = 8;
 
 	//Indice del sonido de hover de cada boton (Sounds::Sfx::hoverButton)
 	const int MUSIC_HOVER_SOUND = 5;
 	const int SFX_HOVER_SOUND = 7;
+	const int FULLSCREEN_HOVER_SOUND = 2;
+	const int RESOLUTION_HOVER_SOUND = 3;
 	const int BACK_HOVER_SOUND = 6;
 
 	//Recursos
@@ -34,11 +40,15 @@ namespace Settings
 
 	static Button::Button musicButton;
 	static Button::Button sfxButton;
+	static Button::Button fullscreenButton;
+	static Button::Button resolutionButton;
 	static Button::Button back;
 
 	static Font settingsFont;
 
 	static Texture2D settingsBackground;
+
+	static bool isFullScreen = false;
 
 	static bool isMusicMuted;
 	static bool isSfxMuted;
@@ -90,6 +100,22 @@ namespace Settings
 		}
 	}
 
+	static void ToggleScreenMode()
+	{
+		isFullScreen = !isFullScreen;
+
+		ToggleBorderlessWindowed();
+
+		if (!isFullScreen)
+		{
+			SetButtonText(fullscreenButton, "Fullscreen");
+		}
+		else
+		{
+			SetButtonText(fullscreenButton, "Windowed");
+		}
+	}
+
 	static void ApplySfxState(Sounds::Sfx& sfx, bool isMuted)
 	{
 		isSfxMuted = isMuted;
@@ -111,13 +137,19 @@ namespace Settings
 		Text::Text text;
 		Vector2 textPos;
 
+		float centerX = static_cast<float>(width) / 2.0f;
+
+		float leftColumnX = centerX - Button::BUTTON_WIDTH - (COLUMN_GAP / 2.0f);
+		float rightColumnX = centerX + (COLUMN_GAP / 2.0f);
+		float centeredX = centerX - (Button::BUTTON_WIDTH / 2.0f);
+
 		Rectangle hitbox;
-		hitbox.x = static_cast<float>((width / 2) - (Button::BUTTON_WIDTH / 2));
 		hitbox.width = Button::BUTTON_WIDTH;
 		hitbox.height = Button::BUTTON_HEIGHT;
 
 		//MUSIC
-		hitbox.y = GetButtonPosY(height, MUSIC_BUTTON_ROW);
+		hitbox.x = leftColumnX;
+		hitbox.y = GetButtonPosY(height, FIRST_ROW);
 
 		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "Music: On", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
@@ -126,7 +158,8 @@ namespace Settings
 		Button::Init(musicButton, buttonTextures, hitbox, text, sfx.hoverButton[MUSIC_HOVER_SOUND], sfx.pressButton);
 
 		//SFX
-		hitbox.y = GetButtonPosY(height, SFX_BUTTON_ROW);
+		hitbox.x = leftColumnX;
+		hitbox.y = GetButtonPosY(height, SECOND_ROW);
 
 		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "Sound: On", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
@@ -134,7 +167,28 @@ namespace Settings
 
 		Button::Init(sfxButton, buttonTextures, hitbox, text, sfx.hoverButton[SFX_HOVER_SOUND], sfx.pressButton);
 
+		//FULLSCREEN
+		hitbox.x = rightColumnX;
+		hitbox.y = GetButtonPosY(height, FIRST_ROW);
+
+		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "Fullscreen", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
+
+		Text::Init(text, settingsFont, FONT_SIZE_BUTTON, "Fullscreen", textPos, BUTTON_FONT_SPACING, WHITE);
+
+		Button::Init(fullscreenButton, buttonTextures, hitbox, text, sfx.hoverButton[FULLSCREEN_HOVER_SOUND], sfx.pressButton);
+
+		//RESOLUTION
+		hitbox.x = rightColumnX;
+		hitbox.y = GetButtonPosY(height, SECOND_ROW);
+
+		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "1280x720", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
+
+		Text::Init(text, settingsFont, FONT_SIZE_BUTTON, "1280x720", textPos, BUTTON_FONT_SPACING, WHITE);
+
+		Button::Init(resolutionButton, buttonTextures, hitbox, text, sfx.hoverButton[RESOLUTION_HOVER_SOUND], sfx.pressButton);
+
 		//BACK
+		hitbox.x = centeredX;
 		hitbox.y = GetButtonPosY(height, BACK_BUTTON_ROW);
 
 		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "Back", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
@@ -197,6 +251,18 @@ namespace Settings
 			ApplySfxState(sfx, !isSfxMuted);
 		}
 
+		Button::Update(fullscreenButton, mousePos);
+		if (WasButtonClicked(fullscreenButton))
+		{
+			ToggleScreenMode();
+		}
+
+		Button::Update(resolutionButton, mousePos);
+		if (WasButtonClicked(resolutionButton))
+		{
+		;
+		}
+
 		Button::Update(back, mousePos);
 		backButtonPressed = WasButtonClicked(back);
 	}
@@ -215,6 +281,8 @@ namespace Settings
 
 		Button::Draw(musicButton);
 		Button::Draw(sfxButton);
+		Button::Draw(fullscreenButton);
+		Button::Draw(resolutionButton);
 		Button::Draw(back);
 	}
 
