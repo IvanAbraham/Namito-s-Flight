@@ -234,6 +234,7 @@ namespace Menu
 			creditsButtonPressed = false;
 		}
 
+#if !defined(PLATFORM_WEB)
 		//Exit
 		Button::Update(exit, mousePos);
 		if (!exit.isPressed && exit.wasPressed)
@@ -246,6 +247,7 @@ namespace Menu
 		{
 			exitButtonPressed = false;
 		}
+#endif
 	}
 
 	void Draw()
@@ -257,7 +259,9 @@ namespace Menu
 		Button::Draw(tutorial);
 		Button::Draw(settings);
 		Button::Draw(credits);
+#if !defined(PLATFORM_WEB)
 		Button::Draw(exit);
+#endif
 	}
 
 }
