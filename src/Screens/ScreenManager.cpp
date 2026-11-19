@@ -63,7 +63,7 @@ namespace ScreenManager
 
 		const Vector2 position = { 10, 0 };
 
-		Text::Init(version, font, fontSize, "v 0.5", position, 0, BLACK);
+		Text::Init(version, font, fontSize, "v 0.6", position, 0, BLACK);
 	}
 
 	static void Init()
@@ -128,7 +128,7 @@ namespace ScreenManager
 		bool restartKeyPressed = false;
 		bool resumeButtonPressed = false;;
 		bool menuButtonPressed = false;
-		//Tutorial y Settings abiertos desde la pausa siguen siendo parte de la partida
+
 		bool isOpenedFromPause = (currentScreen == Screens::Tutorial || currentScreen == Screens::Settings) && returnScreen == Screens::Pause;
 		bool isGameplay = currentScreen == Screens::Play || currentScreen == Screens::Pause || currentScreen == Screens::GameOver || isOpenedFromPause;
 		
