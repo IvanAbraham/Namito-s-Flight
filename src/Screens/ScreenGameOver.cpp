@@ -24,16 +24,19 @@ namespace GameOver
 	const float TITLE_POS_Y = 150.0f;
 	const float FIRST_SCORE_POS_Y = 280.0f;
 	const float SECOND_SCORE_POS_Y = 340.0f;
+	const float WINNER_POS_Y = 400.0f;
 	const float MENU_INSTRUCTION_POS_Y = 480.0f;
 	const float RESTART_INSTRUCTION_POS_Y = 530.0f;
 
 	const Color PLAYER_1_COLOR = ORANGE;
 	const Color PLAYER_2_COLOR = PURPLE;
+	const Color DRAW_COLOR = WHITE;
 
 	//Recursos
 	static Text::Text title;
 	static Text::Text scoreP1Text;
 	static Text::Text scoreP2Text;
+	static Text::Text winnerText;
 	static Text::Text menuInstruction;
 	static Text::Text restartInstruction;
 
@@ -48,6 +51,8 @@ namespace GameOver
 	static Vector2 GetCenteredPos(std::string text, float fontSize, float spacing, float posY);
 
 	static void TextInit();
+
+	static void SetWinner(int scoreP1, int scoreP2);
 
 
 	static Vector2 GetCenteredPos(std::string text, float fontSize, float spacing, float posY)
@@ -67,6 +72,25 @@ namespace GameOver
 
 		Text::Init(menuInstruction, gameOverFont, FONT_SIZE_INSTRUCTIONS, menuText, GetCenteredPos(menuText, FONT_SIZE_INSTRUCTIONS, INSTRUCTIONS_FONT_SPACING, MENU_INSTRUCTION_POS_Y), INSTRUCTIONS_FONT_SPACING, WHITE);
 		Text::Init(restartInstruction, gameOverFont, FONT_SIZE_INSTRUCTIONS, restartText, GetCenteredPos(restartText, FONT_SIZE_INSTRUCTIONS, INSTRUCTIONS_FONT_SPACING, RESTART_INSTRUCTION_POS_Y), INSTRUCTIONS_FONT_SPACING, WHITE);
+	}
+
+	static void SetWinner(int scoreP1, int scoreP2)
+	{
+		std::string text = "Draw!";
+		Color color = DRAW_COLOR;
+
+		if (scoreP1 > scoreP2)
+		{
+			text = "Player 1 wins!";
+			color = PLAYER_1_COLOR;
+		}
+		else if (scoreP2 > scoreP1)
+		{
+			text = "Player 2 wins!";
+			color = PLAYER_2_COLOR;
+		}
+
+		Text::Init(winnerText, gameOverFont, FONT_SIZE_SCORE, text, GetCenteredPos(text, FONT_SIZE_SCORE, SCORE_FONT_SPACING, WINNER_POS_Y), SCORE_FONT_SPACING, color);
 	}
 
 	void Init(Font font, int screenWidth, int screenHeight)
@@ -89,6 +113,8 @@ namespace GameOver
 
 			Text::Init(scoreP1Text, gameOverFont, FONT_SIZE_SCORE, p1Text, GetCenteredPos(p1Text, FONT_SIZE_SCORE, SCORE_FONT_SPACING, FIRST_SCORE_POS_Y), SCORE_FONT_SPACING, PLAYER_1_COLOR);
 			Text::Init(scoreP2Text, gameOverFont, FONT_SIZE_SCORE, p2Text, GetCenteredPos(p2Text, FONT_SIZE_SCORE, SCORE_FONT_SPACING, SECOND_SCORE_POS_Y), SCORE_FONT_SPACING, PLAYER_2_COLOR);
+
+			SetWinner(scoreP1, scoreP2);
 		}
 		else
 		{
@@ -115,6 +141,7 @@ namespace GameOver
 		if (showSecondScore)
 		{
 			Text::Draw(scoreP2Text);
+			Text::Draw(winnerText);
 		}
 
 		Text::Draw(menuInstruction);
