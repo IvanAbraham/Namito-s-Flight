@@ -13,10 +13,10 @@ This repository is a fork of the [original project](https://github.com/Namitof/N
 
 ## Controls
 
-| Player   | Jump     |Pause |
-|----------|----------|------|
-| Player 1 | UP ARROW |ESC   |
-| Player 2 | W        |ESC   |
+| Player   | Jump     | Pause | Mute | 
+|----------|----------|-------|------|
+| Player 1 | UP ARROW | ESC   |  M   |
+| Player 2 | W        | ESC   |  M   |
 
 Use the mouse to navigate the menus.
 
