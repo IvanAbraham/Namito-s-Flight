@@ -13,6 +13,7 @@
 #include "Objects/Parallax.h"
 #include "Utils/GameSounds.h"
 #include "ScreenPause.h"
+#include "ScreenSettings.h"
 
 namespace ScreenManager
 {
@@ -109,6 +110,8 @@ namespace ScreenManager
 		Tutorial::Init(font, tutorialBackground, buttonTextures, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		Credits::Init(font, creditsBackground, buttonTextures, sfx, SCREEN_WIDTH);
+
+		Settings::Init(font, menuBackground, buttonTextures, sfx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
 	static void Update(float deltaTime)
@@ -117,6 +120,7 @@ namespace ScreenManager
 		bool playButtonPressed = false;
 		bool twoPlayersButtonPressed = false;
 		bool tutorialButtonPressed = false;
+		bool settingsButtonPressed = false;
 		bool creditsButtonPressed = false;
 		bool exitButtonPressed = false;
 		bool backButtonPressed = false;
@@ -124,17 +128,24 @@ namespace ScreenManager
 		bool restartKeyPressed = false;
 		bool resumeButtonPressed = false;;
 		bool menuButtonPressed = false;
-		bool isGameplay = currentScreen == Screens::Play || currentScreen == Screens::Pause || currentScreen == Screens::GameOver;
+		//Tutorial y Settings abiertos desde la pausa siguen siendo parte de la partida
+		bool isOpenedFromPause = (currentScreen == Screens::Tutorial || currentScreen == Screens::Settings) && returnScreen == Screens::Pause;
+		bool isGameplay = currentScreen == Screens::Play || currentScreen == Screens::Pause || currentScreen == Screens::GameOver || isOpenedFromPause;
 		
 		int scoreP1 = 0;
 		int scoreP2 = 0;
 
 		Sounds::Update(music, isGameplay);
+
+		if (IsKeyPressed(Settings::MUTE_KEY))
+		{
+			Settings::ToggleMute();
+		}
 		
 		switch (currentScreen)
 		{
 		case Screens::Menu:
-			Menu::Update(playButtonPressed, twoPlayersButtonPressed, tutorialButtonPressed, creditsButtonPressed, exitButtonPressed);
+			Menu::Update(playButtonPressed, twoPlayersButtonPressed, tutorialButtonPressed, settingsButtonPressed, creditsButtonPressed, exitButtonPressed);
 			if (playButtonPressed)
 			{
 				currentScreen = Screens::Play;
@@ -156,6 +167,12 @@ namespace ScreenManager
 				returnScreen = Screens::Menu;
 
 				currentScreen = Screens::Tutorial;
+			}
+			else if (settingsButtonPressed)
+			{
+				returnScreen = Screens::Menu;
+
+				currentScreen = Screens::Settings;
 			}
 			else if (creditsButtonPressed)
 			{
@@ -186,7 +203,7 @@ namespace ScreenManager
 
 		case Screens::Pause:
 
-			Pause::Update(resumeButtonPressed, tutorialButtonPressed, menuButtonPressed);
+			Pause::Update(resumeButtonPressed, tutorialButtonPressed, settingsButtonPressed, menuButtonPressed);
 			if (resumeButtonPressed || IsKeyPressed(Pause::PAUSE_KEY) || IsKeyPressed(Pause::ALT_PAUSE))
 			{
 				Game::RestartStandby();
@@ -197,6 +214,12 @@ namespace ScreenManager
 				returnScreen = Screens::Pause;
 
 				currentScreen = Screens::Tutorial;
+			}
+			else if (settingsButtonPressed)
+			{
+				returnScreen = Screens::Pause;
+
+				currentScreen = Screens::Settings;
 			}
 			else if (menuButtonPressed)
 			{
@@ -230,6 +253,13 @@ namespace ScreenManager
 			if (backButtonPressed || IsKeyPressed(KEY_ESCAPE))
 			{
 				currentScreen = Screens::Menu;
+			}
+			break;
+		case Screens::Settings:
+			Settings::Update(backButtonPressed);
+			if (backButtonPressed || IsKeyPressed(KEY_ESCAPE))
+			{
+				currentScreen = returnScreen;
 			}
 			break;
 		case Screens::Exit:
@@ -267,6 +297,13 @@ namespace ScreenManager
 			break;
 		case Screens::Credits:
 			Credits::Draw();
+			break;
+		case Screens::Settings:
+			if (returnScreen == Screens::Pause)
+			{
+				Game::Draw();
+			}
+			Settings::Draw(returnScreen == Screens::Pause);
 			break;
 		case Screens::Exit:
 			break;

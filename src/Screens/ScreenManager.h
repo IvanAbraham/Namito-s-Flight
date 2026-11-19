@@ -11,6 +11,7 @@ namespace ScreenManager
 		GameOver,
 		Tutorial,
 		Credits,
+		Settings,
 		Exit
 	};
 

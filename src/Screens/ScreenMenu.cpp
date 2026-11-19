@@ -16,14 +16,15 @@ namespace Menu
 
 	//La pantalla se divide en filas; cada boton arranca en su fila
 	const int SCREEN_ROWS = 36;
-	const int FIRST_BUTTON_ROW = 13;
+	const int FIRST_BUTTON_ROW = 12;
 	const int ROWS_BETWEEN_BUTTONS = 4;
 
 	const int PLAY_BUTTON_INDEX = 0;
 	const int TWO_PLAYERS_BUTTON_INDEX = 1;
 	const int TUTORIAL_BUTTON_INDEX = 2;
-	const int CREDITS_BUTTON_INDEX = 3;
-	const int EXIT_BUTTON_INDEX = 4;
+	const int SETTINGS_BUTTON_INDEX = 3;
+	const int CREDITS_BUTTON_INDEX = 4;
+	const int EXIT_BUTTON_INDEX = 5;
 
 	//Indice del sonido de hover de cada boton (Sounds::Sfx::hoverButton)
 	const int PLAY_HOVER_SOUND = 0;
@@ -31,11 +32,13 @@ namespace Menu
 	const int TUTORIAL_HOVER_SOUND = 2;
 	const int CREDITS_HOVER_SOUND = 3;
 	const int EXIT_HOVER_SOUND = 4;
+	const int SETTINGS_HOVER_SOUND = 5;
 
 	//Recursos
 	static Button::Button play;
 	static Button::Button twoPlayers;
 	static Button::Button tutorial;
+	static Button::Button settings;
 	static Button::Button credits;
 	static Button::Button exit;
 
@@ -108,6 +111,21 @@ namespace Menu
 
 		Button::Init(tutorial, buttonTextures, hitbox, text, sfx.hoverButton[TUTORIAL_HOVER_SOUND], sfx.pressButton);
 
+		//SETTINGS
+		buttonPos.x = BUTTONS_POS_X;
+		buttonPos.y = GetButtonPosY(screenHeight, SETTINGS_BUTTON_INDEX);
+
+		hitbox.x = buttonPos.x;
+		hitbox.y = buttonPos.y;
+		hitbox.width = Button::BUTTON_WIDTH;
+		hitbox.height = Button::BUTTON_HEIGHT;
+
+		textPos = Button::GetCenteredTextPos(hitbox, menuFont, "Settings", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
+
+		Text::Init(text, menuFont, FONT_SIZE_BUTTON, "Settings", textPos, BUTTON_FONT_SPACING, WHITE);
+
+		Button::Init(settings, buttonTextures, hitbox, text, sfx.hoverButton[SETTINGS_HOVER_SOUND], sfx.pressButton);
+
 		//CREDITS
 		buttonPos.x = BUTTONS_POS_X;
 		buttonPos.y = GetButtonPosY(screenHeight, CREDITS_BUTTON_INDEX);
@@ -146,7 +164,7 @@ namespace Menu
 		ButtonsInit(buttonTextures, sfx, screenHeight);
 	}
 
-	void Update(bool& playButtonPressed, bool& twoPlayersButtonPressed, bool& tutorialButtonPressed, bool& creditsButtonPressed, bool& exitButtonPressed)
+	void Update(bool& playButtonPressed, bool& twoPlayersButtonPressed, bool& tutorialButtonPressed, bool& settingsButtonPressed, bool& creditsButtonPressed, bool& exitButtonPressed)
 	{
 		//Actualizar estado de botones
 		Vector2 mousePos = GetMousePosition();
@@ -190,6 +208,19 @@ namespace Menu
 			tutorialButtonPressed = false;
 		}
 
+		//Settings
+		Button::Update(settings, mousePos);
+		if (!settings.isPressed && settings.wasPressed)
+		{
+			settings.isPressed = false;
+			settings.wasPressed = false;
+			settingsButtonPressed = true;
+		}
+		else
+		{
+			settingsButtonPressed = false;
+		}
+
 		//Credits
 		Button::Update(credits, mousePos);
 		if (!credits.isPressed && credits.wasPressed)
@@ -224,6 +255,7 @@ namespace Menu
 		Button::Draw(play);
 		Button::Draw(twoPlayers);
 		Button::Draw(tutorial);
+		Button::Draw(settings);
 		Button::Draw(credits);
 		Button::Draw(exit);
 	}

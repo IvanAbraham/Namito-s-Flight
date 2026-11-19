@@ -12,7 +12,7 @@ namespace Pause
 
 	void Init(Font font, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 
-	void Update(bool& resumeButtonPressed, bool& tutorialButtonPressed, bool& menuButtonPressed);
+	void Update(bool& resumeButtonPressed, bool& tutorialButtonPressed, bool& settingsButtonPressed, bool& menuButtonPressed);
 
 	void Draw();
 }

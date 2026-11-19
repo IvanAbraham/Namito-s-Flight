@@ -78,6 +78,9 @@
     <ClCompile Include="src\Screens\ScreenPause.cpp">
       <Filter>Archivos de origen\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="src\Screens\ScreenSettings.cpp">
+      <Filter>Archivos de origen\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Screens\ScreenManager.h">
@@ -120,7 +123,10 @@
       <Filter>Archivos de encabezado\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\Screens\ScreenPause.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\ScreenSettings.h">
+      <Filter>Archivos de encabezado\Screens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

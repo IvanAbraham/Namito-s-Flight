@@ -22,11 +22,13 @@ namespace Pause
 	const int SCREEN_ROWS = 12;
 	const int RESUME_BUTTON_ROW = 4;
 	const int TUTORIAL_BUTTON_ROW = 6;
-	const int MENU_BUTTON_ROW = 8;
+	const int SETTINGS_BUTTON_ROW = 8;
+	const int MENU_BUTTON_ROW = 10;
 
 	//Indice del sonido de hover de cada boton (Sounds::Sfx::hoverButton)
 	const int RESUME_HOVER_SOUND = 7;
 	const int TUTORIAL_HOVER_SOUND = 2;
+	const int SETTINGS_HOVER_SOUND = 5;
 	const int MENU_HOVER_SOUND = 6;
 
 	//Recursos
@@ -34,6 +36,7 @@ namespace Pause
 
 	static Button::Button resume;
 	static Button::Button tutorial;
+	static Button::Button settings;
 	static Button::Button returnMenu;
 
 	static Font pauseFont;
@@ -84,6 +87,15 @@ namespace Pause
 
 		Button::Init(tutorial, buttonTextures, hitbox, text, sfx.hoverButton[TUTORIAL_HOVER_SOUND], sfx.pressButton);
 
+		//SETTINGS
+		hitbox.y = GetButtonPosY(screenHeight, SETTINGS_BUTTON_ROW);
+
+		textPos = Button::GetCenteredTextPos(hitbox, pauseFont, "Settings", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
+
+		Text::Init(text, pauseFont, FONT_SIZE_BUTTON, "Settings", textPos, BUTTON_FONT_SPACING, WHITE);
+
+		Button::Init(settings, buttonTextures, hitbox, text, sfx.hoverButton[SETTINGS_HOVER_SOUND], sfx.pressButton);
+
 		//MENU
 		hitbox.y = GetButtonPosY(screenHeight, MENU_BUTTON_ROW);
 
@@ -127,7 +139,7 @@ namespace Pause
 		ButtonsInit(buttonTextures, sfx, screenWidth, screenHeight);
 	}
 
-	void Update(bool& resumeButtonPressed, bool& tutorialButtonPressed, bool& menuButtonPressed)
+	void Update(bool& resumeButtonPressed, bool& tutorialButtonPressed, bool& settingsButtonPressed, bool& menuButtonPressed)
 	{
 		Vector2 mousePos = GetMousePosition();
 
@@ -136,6 +148,9 @@ namespace Pause
 
 		Button::Update(tutorial, mousePos);
 		tutorialButtonPressed = WasButtonClicked(tutorial);
+
+		Button::Update(settings, mousePos);
+		settingsButtonPressed = WasButtonClicked(settings);
 
 		Button::Update(returnMenu, mousePos);
 		menuButtonPressed = WasButtonClicked(returnMenu);
@@ -150,6 +165,7 @@ namespace Pause
 
 		Button::Draw(resume);
 		Button::Draw(tutorial);
+		Button::Draw(settings);
 		Button::Draw(returnMenu);
 	}
 }
