@@ -123,6 +123,14 @@ namespace ScreenManager
 
 	static void Update(float deltaTime)
 	{
+		//El mouse se lleva de coordenadas de la ventana a coordenadas del "lienzo"
+		Rectangle letterbox = GetLetterboxRect();
+		float scale = letterbox.width / SCREEN_WIDTH;
+
+		SetMouseOffset(-static_cast<int>(letterbox.x), -static_cast<int>(letterbox.y));
+		SetMouseScale(1.0f / scale, 1.0f / scale);
+
+
 		bool isGameOver = false;
 		bool playButtonPressed = false;
 		bool twoPlayersButtonPressed = false;
