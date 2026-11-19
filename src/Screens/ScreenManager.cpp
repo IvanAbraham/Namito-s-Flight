@@ -139,7 +139,7 @@ namespace ScreenManager
 
 		if (IsKeyPressed(Settings::MUTE_KEY))
 		{
-			Settings::ToggleMute();
+			Settings::ToggleMuteAll(sfx, music);
 		}
 		
 		switch (currentScreen)
@@ -256,7 +256,7 @@ namespace ScreenManager
 			}
 			break;
 		case Screens::Settings:
-			Settings::Update(backButtonPressed);
+			Settings::Update(backButtonPressed, sfx, music);
 			if (backButtonPressed || IsKeyPressed(KEY_ESCAPE))
 			{
 				currentScreen = returnScreen;

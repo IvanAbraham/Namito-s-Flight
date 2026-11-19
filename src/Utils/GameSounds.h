@@ -26,5 +26,9 @@ namespace Sounds
 
 	void Update(Songs& music, bool isGameplay);
 
+	void SetMusicMuted(Songs& music, bool isMuted);
+
+	void SetSfxMuted(Sfx& sounds, bool isMuted);
+
 	void Unload(Sfx& sounds, Songs& music);
 }

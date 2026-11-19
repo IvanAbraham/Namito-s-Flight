@@ -4,6 +4,21 @@ namespace Sounds
 {
     static const int FIRST_HOVER_FILE_NUMBER = 1;
 
+    static const float VOLUME_ON = 1.0f;
+    static const float VOLUME_OFF = 0.0f;
+
+    static float GetVolume(bool isMuted);
+
+    static float GetVolume(bool isMuted)
+    {
+        if (isMuted)
+        {
+            return VOLUME_OFF;
+        }
+
+        return VOLUME_ON;
+    }
+
     void Load(Sfx& sounds, Songs& music)
     {
         for (int i = 0; i < MAX_HOVER_BUTTONS; i++)
@@ -44,6 +59,28 @@ namespace Sounds
 
             UpdateMusicStream(music.gameMusic);
         }
+    }
+
+    void SetMusicMuted(Songs& music, bool isMuted)
+    {
+        SetMusicVolume(music.menuMusic, GetVolume(isMuted));
+        SetMusicVolume(music.gameMusic, GetVolume(isMuted));
+    }
+
+    void SetSfxMuted(Sfx& sounds, bool isMuted)
+    {
+        float volume = GetVolume(isMuted);
+
+        for (int i = 0; i < MAX_HOVER_BUTTONS; i++)
+        {
+            SetSoundVolume(sounds.hoverButton[i], volume);
+        }
+
+        SetSoundVolume(sounds.pressPlayButton, volume);
+        SetSoundVolume(sounds.pressButton, volume);
+        SetSoundVolume(sounds.jumpP1, volume);
+        SetSoundVolume(sounds.jumpP2, volume);
+        SetSoundVolume(sounds.death, volume);
     }
 
     void Unload(Sfx& sounds, Songs& music)

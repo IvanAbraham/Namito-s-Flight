@@ -18,29 +18,30 @@ namespace Settings
 	const float FONT_SIZE_BUTTON = 40.0f;
 	const float BUTTON_FONT_SPACING = 10.0f;
 
-	const float VOLUME_ON = 1.0f;
-	const float VOLUME_OFF = 0.0f;
-
-	//La pantalla se divide en filas; cada boton arranca en su fila
+	//La pantalla se divide en filas; cada boton arranca en su fila (dejando una libre entre botones)
 	const int SCREEN_ROWS = 12;
-	const int SOUND_BUTTON_ROW = 4;
+	const int MUSIC_BUTTON_ROW = 4;
+	const int SFX_BUTTON_ROW = 6;
 	const int BACK_BUTTON_ROW = 8;
 
 	//Indice del sonido de hover de cada boton (Sounds::Sfx::hoverButton)
-	const int SOUND_HOVER_SOUND = 5;
+	const int MUSIC_HOVER_SOUND = 5;
+	const int SFX_HOVER_SOUND = 7;
 	const int BACK_HOVER_SOUND = 6;
 
 	//Recursos
 	static Text::Text title;
 
-	static Button::Button sound;
+	static Button::Button musicButton;
+	static Button::Button sfxButton;
 	static Button::Button back;
 
 	static Font settingsFont;
 
 	static Texture2D settingsBackground;
 
-	static bool isMuted;
+	static bool isMusicMuted;
+	static bool isSfxMuted;
 
 	static int width;
 	static int height;
@@ -49,6 +50,10 @@ namespace Settings
 	static float GetButtonPosY(int screenHeight, int buttonRow);
 
 	static void SetButtonText(Button::Button& button, const char* text);
+
+	static void ApplyMusicState(Sounds::Songs& music, bool isMuted);
+
+	static void ApplySfxState(Sounds::Sfx& sfx, bool isMuted);
 
 	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx);
 
@@ -70,6 +75,38 @@ namespace Settings
 		Text::Init(button.text, settingsFont, FONT_SIZE_BUTTON, text, textPos, BUTTON_FONT_SPACING, WHITE);
 	}
 
+	static void ApplyMusicState(Sounds::Songs& music, bool isMuted)
+	{
+		isMusicMuted = isMuted;
+
+		Sounds::SetMusicMuted(music, isMusicMuted);
+
+		if (isMusicMuted)
+		{
+			SetButtonText(musicButton, "Music: Off");
+		}
+		else
+		{
+			SetButtonText(musicButton, "Music: On");
+		}
+	}
+
+	static void ApplySfxState(Sounds::Sfx& sfx, bool isMuted)
+	{
+		isSfxMuted = isMuted;
+
+		Sounds::SetSfxMuted(sfx, isSfxMuted);
+
+		if (isSfxMuted)
+		{
+			SetButtonText(sfxButton, "Sound: Off");
+		}
+		else
+		{
+			SetButtonText(sfxButton, "Sound: On");
+		}
+	}
+
 	static void ButtonsInit(const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx)
 	{
 		Text::Text text;
@@ -80,14 +117,23 @@ namespace Settings
 		hitbox.width = Button::BUTTON_WIDTH;
 		hitbox.height = Button::BUTTON_HEIGHT;
 
-		//SOUND
-		hitbox.y = GetButtonPosY(height, SOUND_BUTTON_ROW);
+		//MUSIC
+		hitbox.y = GetButtonPosY(height, MUSIC_BUTTON_ROW);
+
+		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "Music: On", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
+
+		Text::Init(text, settingsFont, FONT_SIZE_BUTTON, "Music: On", textPos, BUTTON_FONT_SPACING, WHITE);
+
+		Button::Init(musicButton, buttonTextures, hitbox, text, sfx.hoverButton[MUSIC_HOVER_SOUND], sfx.pressButton);
+
+		//SFX
+		hitbox.y = GetButtonPosY(height, SFX_BUTTON_ROW);
 
 		textPos = Button::GetCenteredTextPos(hitbox, settingsFont, "Sound: On", FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(text, settingsFont, FONT_SIZE_BUTTON, "Sound: On", textPos, BUTTON_FONT_SPACING, WHITE);
 
-		Button::Init(sound, buttonTextures, hitbox, text, sfx.hoverButton[SOUND_HOVER_SOUND], sfx.pressButton);
+		Button::Init(sfxButton, buttonTextures, hitbox, text, sfx.hoverButton[SFX_HOVER_SOUND], sfx.pressButton);
 
 		//BACK
 		hitbox.y = GetButtonPosY(height, BACK_BUTTON_ROW);
@@ -129,20 +175,27 @@ namespace Settings
 		width = screenWidth;
 		height = screenHeight;
 
-		isMuted = false;
+		isMusicMuted = false;
+		isSfxMuted = false;
 
 		TextInit();
 		ButtonsInit(buttonTextures, sfx);
 	}
 
-	void Update(bool& backButtonPressed)
+	void Update(bool& backButtonPressed, Sounds::Sfx& sfx, Sounds::Songs& music)
 	{
 		Vector2 mousePos = GetMousePosition();
 
-		Button::Update(sound, mousePos);
-		if (WasButtonClicked(sound))
+		Button::Update(musicButton, mousePos);
+		if (WasButtonClicked(musicButton))
 		{
-			ToggleMute();
+			ApplyMusicState(music, !isMusicMuted);
+		}
+
+		Button::Update(sfxButton, mousePos);
+		if (WasButtonClicked(sfxButton))
+		{
+			ApplySfxState(sfx, !isSfxMuted);
 		}
 
 		Button::Update(back, mousePos);
@@ -161,23 +214,17 @@ namespace Settings
 
 		Text::Draw(title);
 
-		Button::Draw(sound);
+		Button::Draw(musicButton);
+		Button::Draw(sfxButton);
 		Button::Draw(back);
 	}
 
-	void ToggleMute()
+	void ToggleMuteAll(Sounds::Sfx& sfx, Sounds::Songs& music)
 	{
-		isMuted = !isMuted;
+		//Si algo sigue sonando se silencia todo; si ya estaba todo silenciado, se vuelve a activar
+		bool shouldMute = !isMusicMuted || !isSfxMuted;
 
-		if (isMuted)
-		{
-			SetMasterVolume(VOLUME_OFF);
-			SetButtonText(sound, "Sound: Off");
-		}
-		else
-		{
-			SetMasterVolume(VOLUME_ON);
-			SetButtonText(sound, "Sound: On");
-		}
+		ApplyMusicState(music, shouldMute);
+		ApplySfxState(sfx, shouldMute);
 	}
 }

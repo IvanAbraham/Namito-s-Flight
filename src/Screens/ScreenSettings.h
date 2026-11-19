@@ -11,9 +11,9 @@ namespace Settings
 
 	void Init(Font font, Texture2D background, const Button::ButtonTextures& buttonTextures, const Sounds::Sfx& sfx, int screenWidth, int screenHeight);
 
-	void Update(bool& backButtonPressed);
+	void Update(bool& backButtonPressed, Sounds::Sfx& sfx, Sounds::Songs& music);
 
 	void Draw(bool isOpenedFromPause);
 
-	void ToggleMute();
+	void ToggleMuteAll(Sounds::Sfx& sfx, Sounds::Songs& music);
 }
