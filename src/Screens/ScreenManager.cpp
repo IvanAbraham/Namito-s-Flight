@@ -156,6 +156,11 @@ namespace ScreenManager
 		{
 			Settings::ToggleMuteAll(sfx, music);
 		}
+
+		if (IsKeyPressed(Settings::FULLSCREEN_KEY))
+		{
+			Settings::ToggleScreenMode();
+		}
 		
 		switch (currentScreen)
 		{
