@@ -14,6 +14,7 @@ namespace Sounds
 		Sound jumpP1;
 		Sound jumpP2;
 		Sound death;
+		Sound scorePoint;
 	};
 
 	struct Songs

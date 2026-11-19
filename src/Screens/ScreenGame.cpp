@@ -44,6 +44,7 @@ namespace Game
 	static bool standby;
 
 	static Sound deathSound;
+	static Sound scoreSound;
 
 	static Font gameFont;
 
@@ -64,6 +65,8 @@ namespace Game
 			{
 				player.score += POINTS_PER_OBSTACLE;
 				player.passedObstacle = true;
+
+				PlaySound(scoreSound);
 			}
 		}
 		else
@@ -87,6 +90,7 @@ namespace Game
 		Parallax::Init(parallax, textures.parallaxBackground);
 
 		deathSound = sfx.death;
+		scoreSound = sfx.scorePoint;
 
 		player1.texture = textures.player1;
 		player1.jumpSound = sfx.jumpP1;

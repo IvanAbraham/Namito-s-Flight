@@ -69,7 +69,6 @@ namespace Settings
 
 	static void SetButtonText(Button::Button& button, const char* text)
 	{
-		//El texto se recentra porque cada string tiene un ancho distinto
 		Vector2 textPos = Button::GetCenteredTextPos(button.hitbox, settingsFont, text, FONT_SIZE_BUTTON, BUTTON_FONT_SPACING);
 
 		Text::Init(button.text, settingsFont, FONT_SIZE_BUTTON, text, textPos, BUTTON_FONT_SPACING, WHITE);
