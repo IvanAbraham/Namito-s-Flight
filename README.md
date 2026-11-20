@@ -76,6 +76,9 @@ Both songs are from the [Not Jam Music Pack](https://not-jam.itch.io/not-jam-mus
 - **Library:** [raylib](https://www.raylib.com/)
 - **IDE:** Visual Studio 2026
 
+ ### AI tools
+  - Claude Code (Claude Opus 5.5 model) by Anthropic (https://claude.com/claude-code): used for code review, and implementation assistance (web build setup).
+
 ### Academic Credits
 
 **Subject:**  
